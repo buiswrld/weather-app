@@ -1,17 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
-import Weather from './components/weather';
+import WeatherContainer from './components/weather-container';
 import Header from './components/header';
+import Grid from './components/grid';
 
 function App() {
   return (
     <div className = "App">
       <Header />
-      <Router>
-        <Routes>
-        </Routes>
-      </Router>
+      <Grid />
     </div>
   )
 }
