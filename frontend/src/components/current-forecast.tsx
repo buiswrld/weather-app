@@ -34,8 +34,13 @@ const CurrentForecast = () => {
 
   const getTodayWeather = () => {
     if (!weather) return null;
-    const today = new Date().toISOString().split('T')[0];
-    const index = weather.hourly.time.findIndex((time: string) => time.startsWith(today));
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const currentHour = now.getHours();
+    const index = weather.hourly.time.findIndex((time: string) => {
+      const [date, hour] = time.split('T');
+      return date === today && parseInt(hour.split(':')[0]) === currentHour;
+    });
     if (index === -1) return null;
     return {
       time: weather.hourly.time[index],
