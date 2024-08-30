@@ -3,12 +3,10 @@ import { Box, Flex, Spacer, Heading } from '@chakra-ui/react';
 import SelectLocation from './select-location';
 import SelectUser from './select-user';
 import Subheader from './subheader';
-import { LocationData } from '../api/location-service';
 
 const Header = () => {
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
-  const [locationData, setLocationData] = useState<LocationData | null>(null);
 
   useEffect(() => {
     const updateDateTime = () => {
