@@ -1,6 +1,7 @@
 export interface LocationData {
     lat: number;
     lng: number;
+    place_name: string;
 }
 
 export const fetchLocationData = async (location: string): Promise<LocationData> => {

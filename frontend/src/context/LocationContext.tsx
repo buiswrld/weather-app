@@ -16,7 +16,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setLocationData({ lat: latitude, lng: longitude });
+          setLocationData({ lat: latitude, lng: longitude, place_name: 'Current Location' });
         },
         (error) => {
           console.error('Error fetching user location:', error);

@@ -1,6 +1,6 @@
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { fetchLocationData, LocationData } from '../api/location-service';
+import { fetchLocationData } from '../api/location-service';
 import { LocationContext } from '../context/LocationContext';
 
 const SelectLocation = () => {
