@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { fetchWeather } from '../api/weather-service'; // Ensure this service fetches data from Open-Meteo
+import { fetchWeather } from '../api/weather-service';
+import SelectLocation from './select-location';
+import '../styles/select-location.css';
 
 const Weather: React.FC = () => {
     const [lat, setLat] = useState<string>('');
@@ -24,27 +26,14 @@ const Weather: React.FC = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Weather App</h1>
-            <div className="mb-4">
-                <input
-                    type="text"
-                    value={lat}
-                    onChange={(e) => setLat(e.target.value)}
-                    placeholder="Enter latitude"
-                    className="border p-2 mr-2"
+            <div className="select-location-container">
+                <SelectLocation
+                    lat={lat}
+                    lon={lon}
+                    setLat={setLat}
+                    setLon={setLon}
+                    handleFetchWeather={handleFetchWeather}
                 />
-                <input
-                    type="text"
-                    value={lon}
-                    onChange={(e) => setLon(e.target.value)}
-                    placeholder="Enter longitude"
-                    className="border p-2"
-                />
-                <button
-                    onClick={handleFetchWeather}
-                    className="bg-blue-500 text-white p-2 ml-2"
-                >
-                    Get Weather
-                </button>
             </div>
             {loading && <div>Loading...</div>}
             {error && <div>{error}</div>}
