@@ -8,7 +8,7 @@ const FutureForecast = () => {
         {['Sunday', 'Monday', 'Tuesday', 'Wednesday'].map((variant) => (
             <Card size = "sm" key={variant}>
             <CardHeader>
-                <Heading size='sm'> {variant}</Heading>
+                <Heading size='sm' textAlign = "left"> {variant}</Heading>
             </CardHeader>
             <CardBody>
                 <Text>shlerping zazu</Text>

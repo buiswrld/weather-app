@@ -52,7 +52,6 @@ const CurrentForecast = () => {
 
   return (
     <Box className="container" mx="auto" p="4">
-      <Heading as="h1" size="xl" mb="4">Weather Forecast</Heading>
       {loading && <Spinner />}
       {error && (
         <Alert status="error">
