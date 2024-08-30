@@ -1,10 +1,16 @@
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { fetchLocationData, LocationData } from '../api/location-service';
+import { LocationContext } from '../context/LocationContext';
 
-const SelectLocation = ({ onLocationSelect }: { onLocationSelect: (data: LocationData) => void }) => {
+const SelectLocation = () => {
   const [location, setLocation] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const context = useContext(LocationContext);
+  if (!context) {
+    throw new Error('LocationContext must be used within a LocationProvider');
+  }
+  const { setLocationData } = context;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(event.target.value);
@@ -12,19 +18,19 @@ const SelectLocation = ({ onLocationSelect }: { onLocationSelect: (data: Locatio
 
   const handleSubmit = async () => {
     if (!location) {
-        setError('Location cannot be empty');
-        return;
+      setError('Location cannot be empty');
+      return;
     }
 
     try {
-        const data = await fetchLocationData(location);
-        onLocationSelect(data);
-        setError(null);
-        console.log('Location data:', data);
+      const data = await fetchLocationData(location);
+      setLocationData(data);
+      setError(null);
+      console.log('Location data:', data);
     } catch (err) {
-        setError('Failed to fetch location data');
+      setError('Failed to fetch location data');
     }
-};
+  };
 
   return (
     <InputGroup size='md' width="280px" height="36px" variant="filled" marginX="60px" marginY="80px">

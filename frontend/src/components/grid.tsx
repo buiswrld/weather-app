@@ -1,6 +1,7 @@
 import React from 'react';
 import {SimpleGrid, Box} from '@chakra-ui/react';
 import FutureForecast from './future-forecast';
+import CurrentForecast from './current-forecast';
 
 
 const Grid = () => {
@@ -16,7 +17,9 @@ const Grid = () => {
             <Box {...boxStyles}>
                 <FutureForecast />
             </Box>
-            <Box {...boxStyles}></Box>
+            <Box {...boxStyles}>
+                <CurrentForecast />
+            </Box>
             <Box {...boxStyles}></Box>
         </SimpleGrid>
     )

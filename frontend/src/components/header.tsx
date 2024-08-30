@@ -1,9 +1,8 @@
-import { Heading, Box, Flex, Spacer } from '@chakra-ui/react';
-import Subheader from './subheader';
-import SelectUser from './select-user';
-import SelectLocation from './select-location';
-import Weather from './weather';
 import React, { useEffect, useState } from 'react';
+import { Box, Flex, Spacer, Heading } from '@chakra-ui/react';
+import SelectLocation from './select-location';
+import SelectUser from './select-user';
+import Subheader from './subheader';
 import { LocationData } from '../api/location-service';
 
 const Header = () => {
@@ -30,8 +29,6 @@ const Header = () => {
       const now = new Date();
       setDate(now.toLocaleDateString('en-US', dateOptions));
       setTime(now.toLocaleTimeString('en-US', timeOptions));
-
-      now.toLocaleTimeString();
     };
 
     updateDateTime();
@@ -43,7 +40,7 @@ const Header = () => {
   return (
     <Box>
       <Flex>
-        <SelectLocation onLocationSelect={setLocationData} />
+        <SelectLocation />
         <Spacer />
         <Box marginY="60px" textAlign="center">
           <Heading fontSize="80px" textAlign="center">{time}</Heading>
@@ -52,7 +49,6 @@ const Header = () => {
         <Spacer />
         <SelectUser />
       </Flex>
-      {locationData && <Weather lat={locationData.lat.toString()} lon={locationData.lng.toString()} />}
     </Box>
   );
 };

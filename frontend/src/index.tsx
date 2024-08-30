@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider, theme } from '@chakra-ui/react';
+import { LocationProvider } from './context/LocationContext';
 import Theme from './theme';
 
 const root = ReactDOM.createRoot(
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ChakraProvider theme ={Theme}>
-      <App />
+      <LocationProvider>
+        <App />
+      </LocationProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
