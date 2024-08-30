@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { LocationContext } from '../context/LocationContext';
 import { fetchWeather } from '../api/weather-service';
 import { WeatherData } from '../api/model';
+import Temperature from './temperature';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 
 const CurrentForecast = () => {
@@ -44,7 +45,7 @@ const CurrentForecast = () => {
     if (index === -1) return null;
     return {
       time: weather.hourly.time[index],
-      temperature: weather.hourly.temperature_2m[index],
+      temp: weather.hourly.temperature_2m[index],
     };
   };
 
@@ -57,22 +58,19 @@ const CurrentForecast = () => {
 
   return (
     <Box className="container" mx="auto" p="4">
-      {loading && <Spinner />}
-      {error && (
-        <Alert status="error">
-          <AlertIcon />
-          {error}
-        </Alert>
-      )}
-      {todayWeather && (
-        <Box bg="gray.100" p="4" rounded="md">
-          <Heading as="h2" size="lg" mb="2">Today's Weather in {getLocationName()}</Heading>
-          <Text>
-            <strong>{todayWeather.time}:</strong> {todayWeather.temperature}°F
-          </Text>
-        </Box>
-      )}
-    </Box>
+    {loading && <Spinner />}
+    {error && (
+      <Alert status="error">
+        <AlertIcon />
+        {error}
+      </Alert>
+    )}
+    {todayWeather ? (
+      <Temperature temperature={todayWeather} location={getLocationName()} />
+    ) : (
+      <Text>No weather data available for the current time.</Text>
+    )}
+  </Box>
   );
 };
 
