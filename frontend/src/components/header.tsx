@@ -1,5 +1,7 @@
-import { Heading, Box } from '@chakra-ui/react'
+import { Heading, Box, Flex, Spacer } from '@chakra-ui/react'
 import Subheader from './subheader';
+import SelectUser from './select-user';
+import SelectLocation from './select-location';
 import React, { useEffect, useState } from 'react'
 
 const Header = () => {
@@ -36,9 +38,17 @@ const Header = () => {
     }, []);
 
     return (
-        <Box paddingY="60px" textAlign="center">
-            <Heading fontSize="80px" textAlign="center" marginBottom="10px">{time}</Heading>
-            <Subheader text={date} />
+        <Box>
+            <Flex>
+            <SelectLocation />
+            <Spacer />
+            <Box marginY="60px" textAlign="center">
+                <Heading fontSize="80px" textAlign="center" >{time}</Heading>
+                <Subheader text={date} />
+            </Box>
+            <Spacer />
+            <SelectUser />
+            </Flex>
         </Box>
     )
 }

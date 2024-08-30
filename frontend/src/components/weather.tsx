@@ -26,15 +26,6 @@ const Weather: React.FC = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Weather App</h1>
-            <div className="select-location-container">
-                <SelectLocation
-                    lat={lat}
-                    lon={lon}
-                    setLat={setLat}
-                    setLon={setLon}
-                    handleFetchWeather={handleFetchWeather}
-                />
-            </div>
             {loading && <div>Loading...</div>}
             {error && <div>{error}</div>}
             {weather && (

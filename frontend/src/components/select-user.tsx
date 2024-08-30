@@ -1,8 +1,8 @@
 import { Select } from '@chakra-ui/react'
 
-const SelectLocation = () => (
+const SelectUser = () => (
   <Select
-    placeholder="Location"
+    placeholder="User"
     size="sm"
     width="270px"
     height="36px"
@@ -11,8 +11,8 @@ const SelectLocation = () => (
     variant = "filled"
     rounded = "md"
     marginX = "60px"
-    marginY="60px" 
+    marginY = "60px"
   />
 )
 
-export default SelectLocation;
+export default SelectUser;
