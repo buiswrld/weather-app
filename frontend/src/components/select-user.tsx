@@ -11,7 +11,8 @@ const SelectUser = () => (
     variant = "filled"
     rounded = "md"
     marginX = "60px"
-    marginY = "60px"
+    marginY = "80px"
+    fontFamily = "inter"
   />
 )
 

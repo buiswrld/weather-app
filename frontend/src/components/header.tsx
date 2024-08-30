@@ -1,56 +1,60 @@
-import { Heading, Box, Flex, Spacer } from '@chakra-ui/react'
+import { Heading, Box, Flex, Spacer } from '@chakra-ui/react';
 import Subheader from './subheader';
 import SelectUser from './select-user';
 import SelectLocation from './select-location';
-import React, { useEffect, useState } from 'react'
+import Weather from './weather';
+import React, { useEffect, useState } from 'react';
+import { LocationData } from '../api/location-service';
 
 const Header = () => {
-    const [date, setDate] = useState<string>('');
-    const [time, setTime] = useState<string>('');
+  const [date, setDate] = useState<string>('');
+  const [time, setTime] = useState<string>('');
+  const [locationData, setLocationData] = useState<LocationData | null>(null);
 
-    useEffect(() => {
-        const updateDateTime = () => {
-            const timeOptions: Intl.DateTimeFormatOptions = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: undefined,
-                hour12: true,
-            };
+  useEffect(() => {
+    const updateDateTime = () => {
+      const timeOptions: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: undefined,
+        hour12: true,
+      };
 
-            const dateOptions: Intl.DateTimeFormatOptions = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            };
+      const dateOptions: Intl.DateTimeFormatOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
 
-            const now = new Date();
-            setDate(now.toLocaleDateString('en-US', dateOptions));
-            setTime(now.toLocaleTimeString('en-US', timeOptions));
+      const now = new Date();
+      setDate(now.toLocaleDateString('en-US', dateOptions));
+      setTime(now.toLocaleTimeString('en-US', timeOptions));
 
-            now.toLocaleTimeString();
+      now.toLocaleTimeString();
     };
 
-        updateDateTime();
-        const intervalId = setInterval(updateDateTime, 1000);
+    updateDateTime();
+    const intervalId = setInterval(updateDateTime, 1000);
 
-        return () => clearInterval(intervalId);
-    }, []);
+    return () => clearInterval(intervalId);
+  }, []);
 
-    return (
-        <Box>
-            <Flex>
-            <SelectLocation />
-            <Spacer />
-            <Box marginY="60px" textAlign="center">
-                <Heading fontSize="80px" textAlign="center" >{time}</Heading>
-                <Subheader text={date} />
-            </Box>
-            <Spacer />
-            <SelectUser />
-            </Flex>
+  return (
+    <Box>
+      <Flex>
+        <SelectLocation onLocationSelect={setLocationData} />
+        <Spacer />
+        <Box marginY="60px" textAlign="center">
+          <Heading fontSize="80px" textAlign="center">{time}</Heading>
+          <Subheader text={date} />
         </Box>
-    )
-}
+        <Spacer />
+        <SelectUser />
+      </Flex>
+      {locationData && <Weather lat={locationData.lat.toString()} lon={locationData.lng.toString()} />}
+    </Box>
+  );
+};
 
 export default Header;

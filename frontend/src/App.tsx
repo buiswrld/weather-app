@@ -10,8 +10,6 @@ function App() {
       <Header />
       <Router>
         <Routes>
-          <Route path= "/" element={<Weather />} />
-          <Route path= "/weather" element={<Weather />} />
         </Routes>
       </Router>
     </div>
