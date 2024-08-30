@@ -5,7 +5,6 @@ import { LocationContext } from '../context/LocationContext';
 
 const SelectLocation = () => {
   const [location, setLocation] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
   const context = useContext(LocationContext);
   if (!context) {
     throw new Error('LocationContext must be used within a LocationProvider');
@@ -18,17 +17,16 @@ const SelectLocation = () => {
 
   const handleSubmit = async () => {
     if (!location) {
-      setError('Location cannot be empty');
+      console.log('Location is empty'); 
       return;
     }
 
     try {
       const data = await fetchLocationData(location);
       setLocationData(data);
-      setError(null);
       console.log('Location data:', data);
     } catch (err) {
-      setError('Failed to fetch location data');
+      console.log('Failed to fetch location data:', err);
     }
   };
 
