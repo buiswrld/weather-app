@@ -1,11 +1,4 @@
-export interface LocationCoords {
-    lat: number;
-    lon: number;
-}
-
-export interface LocationName {
-    name: string;
-}
+import { LocationCoords, LocationName } from './models/location-model';
 
 export const fetchLocationData = async (location: string): Promise<LocationCoords[]> => {
     const response = await fetch(`http://localhost:5000/api/location?location=${location}`);
