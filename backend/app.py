@@ -19,6 +19,8 @@ def get_coords() -> dict:
     - dict: A dictionary containing latitude and longitude coordinates.
     """
     location = request.args.get('location')
+    if not location:
+        return jsonify({"error": "location parameter is required"}), 400
     data = get_coords_from_location(location)
     return jsonify(data)
 
@@ -28,7 +30,7 @@ def get_location() -> dict:
     data = get_location_from_coords(lat, lon)
     return jsonify(data)
 
-@app.route('/api/current', methods=['GET'])
+@app.route('/api/weather/current', methods=['GET'])
 def get_current_weather_route() -> list:
     """
     Get current weather data
@@ -45,7 +47,7 @@ def get_current_weather_route() -> list:
     data = get_current_weather(lat, lon)
     return jsonify(data)
 
-@app.route('/api/hourly', methods=['GET'])
+@app.route('/api/weather/hourly', methods=['GET'])
 def get_hourly_weather_route() -> list:
     """
     Get hourly weather data (per hour for a 7 day period)
@@ -75,7 +77,7 @@ def get_hourly_weather_route() -> list:
     
     return jsonify(result)
 
-@app.route('/api/daily', methods=['GET'])
+@app.route('/api/weather/daily', methods=['GET'])
 def get_daily_weather_route() -> list:
     """
     Get daily weather data (per day for 7 day period), or in a specified range

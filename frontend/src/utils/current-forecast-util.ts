@@ -3,6 +3,7 @@ import { LocationContext } from '../context/LocationContext';
 import { CurrentWeatherData } from '../api/models/weather-model';
 import { fetchCurrentWeather } from '../api/weather-service';
 import { fetchLocationName } from '../api/location-service';
+import { fetchHourlyWeather } from '../api/weather-service';
 
 
 export const getCurrentWeather = async (lat: string, lon: string): Promise<CurrentWeatherData> => {
@@ -27,7 +28,8 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
 export const getLocationName = async (lat: string, lon: string): Promise<string>=> {
   try {
     const locationData = await fetchLocationName(lat, lon);
-    return locationData[0].name;
+    console.log(locationData[0].location);
+    return locationData[0].location;
   } catch (error) {
     console.error('Error fetching location name:', error);
     return "LOCATION ERROR";
@@ -37,8 +39,8 @@ export const getLocationName = async (lat: string, lon: string): Promise<string>
 export const useLocationFromContext = (): { lat: string; lon: string } => {
   const context = useContext(LocationContext);
   return {
-    lat: context.locationData.lat.toString(),
-    lon: context.locationData.lon.toString()
+    lat: context.locationData?.lat.toString() || "",
+    lon: context.locationData?.lon.toString() || ""
   };
 };
 

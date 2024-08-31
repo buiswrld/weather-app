@@ -1,6 +1,6 @@
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
-import { fetchLocationData } from '../api/location-service';
+import { fetchLocationCoords } from '../api/location-service';
 import { LocationContext } from '../context/LocationContext';
 
 const SelectLocation = () => {
@@ -20,11 +20,15 @@ const SelectLocation = () => {
       console.log('Location is empty'); 
       return;
     }
-
+  
     try {
-      const data = await fetchLocationData(location);
-      setLocationData(data);
-      console.log('Location data:', data);
+      const data = await fetchLocationCoords(location);
+      if (data.length > 0) {
+        setLocationData(data[0]);
+        console.log('Location data:', data);
+      } else {
+        console.log('Invalid location entered');
+      }
     } catch (err) {
       console.log('Failed to fetch location data:', err);
     }

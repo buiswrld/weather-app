@@ -1,4 +1,7 @@
 import unittest
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app import app
 
 class TestLocationEndpoints(unittest.TestCase):
@@ -30,6 +33,11 @@ class TestLocationEndpoints(unittest.TestCase):
         print("Location Data:", data)
         self.assertIsInstance(data, list)
         self.assertIn('location', data[0])
+
+    def test_get_coords_missing_location(self):
+        response = self.app.get('/api/coords')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('location parameter is required', response.get_json()['error'])
 
 if __name__ == '__main__':
     unittest.main()

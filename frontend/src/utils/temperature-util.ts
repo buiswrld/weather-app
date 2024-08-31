@@ -12,12 +12,5 @@ export const getBackgroundColor = (temp: number): string => {
 
 // TODO: MAKE SURE THIS DOESNT RETURN A DEFAULT VALUE, DISPLAY ERROR MESSAGE
 export const processLocation = (location: string): string => {
-    const parts = location.split(',');
-    const out = parts[0];
-    if (parts.length === 1) {
-        return out;
-    } else if (parts.length > 1) {
-        return out + ', ' + parts[1];
-    }
-    return "Your Current Location";
+    return location;
 };

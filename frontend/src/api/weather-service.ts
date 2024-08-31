@@ -15,6 +15,7 @@ export const fetchHourlyWeather = async (lat: string, lon: string, startDate: st
         throw new Error('Failed to fetch hourly weather data');
     }
     const data = await response.json();
+    console.log(data);
     return data;
 }
 

@@ -77,11 +77,26 @@ def get_daily_weather(lat: str, lon: str) -> list:
 
 def get_coords_from_location(location: str) -> list:
     results = geocoder.geocode(location)
+    if not results:
+        return []
     coordinates = results[0]['geometry']
     return [{'lat': coordinates['lat'], 'lon': coordinates['lng']}]
 
 def get_location_from_coords(lat: int, lon: int) -> list:
     results = geocoder.reverse_geocode(lat, lon)
-    return [{"location": results[0]['formatted']}]
+    if not results:
+        return [{"location": "Unknown Location"}]
+
+    components = results[0]['components']
+    city = components.get('city', '')
+    state = components.get('state', '')
+    country = components.get('country', '')
+
+    if country == 'United States':
+        location = f"{city}, {state}, USA"
+    else:
+        location = f"{city}, {country}"
+
+    return [{"location": location}]
 
 

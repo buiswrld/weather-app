@@ -4,5 +4,5 @@ export interface LocationCoords {
 }
 
 export interface LocationName {
-    name: string;
+    location: string;
 }
