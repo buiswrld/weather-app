@@ -1,7 +1,7 @@
 import React from 'react';
 import {SimpleGrid, Box} from '@chakra-ui/react';
 import FutureForecast from './future-forecast';
-import CurrentForecast from './current-forecast';
+import CurrentForecast from './current/current-forecast';
 
 
 const Grid = () => {

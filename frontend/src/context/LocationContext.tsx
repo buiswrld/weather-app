@@ -1,29 +1,27 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { LocationData } from '../api/location-service';
+import { LocationCoords } from '../api/models/location-model';
 
 interface LocationContextProps {
-  locationData: LocationData | null;
-  setLocationData: (data: LocationData) => void;
+  locationData: LocationCoords;
+  setLocationData: (data: LocationCoords) => void;
 }
 
 export const LocationContext = createContext<LocationContextProps | undefined>(undefined);
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
-  const [locationData, setLocationData] = useState<LocationData | null>(null);
+  const [locationData, setLocationData] = useState<LocationCoords>({"lat": 0, "lon": 0});
 
   useEffect(() => {
-    if (!locationData) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocationData({ lat: latitude, lng: longitude, place_name: 'Current Location' });
-        },
-        (error) => {
-          console.error('Error fetching user location:', error);
-        }
-      );
-    }
-  }, [locationData]);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocationData({ lat: latitude, lon: longitude });
+      },
+      (error) => {
+        console.error('Error fetching user location:', error);
+      }
+    );
+  }, []);
 
   return (
     <LocationContext.Provider value={{ locationData, setLocationData }}>

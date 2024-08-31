@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { LocationContext } from '../context/LocationContext';
-import { fetchTemperature } from '../api/weather-service';
+import { LocationContext } from '../../context/LocationContext';
+import { fetchTemperature } from '../../api/weather-service';
 import { WeatherData } from '../api/model';
 import Temperature from './temperature';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 
+//TODO: USE NEW API ENDPOINTS AND ENSURE WE ARE ALWAYS PASSING IN A LOCATION TO THE TEMPERATURE PROP. LOOK INTO RENAMING THE TEMPERATURE.TSX AND UTIL FILE. MOVE ALL FUNCTIONS INTO UTIL.
 const CurrentForecast = () => {
   const context = useContext(LocationContext);
   const [weather, setWeather] = useState<WeatherData | null>(null);
