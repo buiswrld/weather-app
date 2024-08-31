@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LocationContext } from '../context/LocationContext';
-import { fetchWeather } from '../api/weather-service';
+import { fetchTemperature } from '../api/weather-service';
 import { WeatherData } from '../api/model';
 import Temperature from './temperature';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
@@ -12,7 +12,7 @@ const CurrentForecast = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const handleFetchWeather = async () => {
+    const handleFetchTemperature = async () => {
       if (!context || !context.locationData) {
         setError('Location data is not available');
         setLoading(false);
@@ -21,7 +21,7 @@ const CurrentForecast = () => {
 
       setError(null);
       try {
-        const data = await fetchWeather(context.locationData.lat.toString(), context.locationData.lng.toString());
+        const data = await fetchTemperature(context.locationData.lat.toString(), context.locationData.lng.toString());
         setWeather(data);
       } catch (err) {
         setError('Failed to fetch weather data');
@@ -30,7 +30,7 @@ const CurrentForecast = () => {
       }
     };
 
-    handleFetchWeather();
+    handleFetchTemperature();
   }, [context]);
 
   const getTodayWeather = () => {
