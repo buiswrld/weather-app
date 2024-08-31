@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useContext } from 'react';
 import { LocationContext } from '../context/LocationContext';
 import { CurrentWeatherData } from '../api/models/weather-model';
 import { fetchCurrentWeather } from '../api/weather-service';
@@ -24,19 +24,22 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
     }
   };
 
-export const useLocationName = async () => {
-  const context = useContext(LocationContext);
-  const data = {
-    "lat": context.locationData.lat.toString(),
-    "lon": context.locationData.lon.toString()
-  }
+export const getLocationName = async (lat: string, lon: string): Promise<string>=> {
   try {
-    const locationData = await fetchLocationName(data.lat, data.lon);
+    const locationData = await fetchLocationName(lat, lon);
     return locationData[0].name;
   } catch (error) {
     console.error('Error fetching location name:', error);
-    return
+    return "LOCATION ERROR";
   }
+};
+
+export const useLocationFromContext = (): { lat: string; lon: string } => {
+  const context = useContext(LocationContext);
+  return {
+    lat: context.locationData.lat.toString(),
+    lon: context.locationData.lon.toString()
+  };
 };
 
 

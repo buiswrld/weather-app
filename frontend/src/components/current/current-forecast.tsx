@@ -1,61 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { LocationContext } from '../../context/LocationContext';
-import { fetchTemperature } from '../../api/weather-service';
-import { WeatherData } from '../api/model';
 import Temperature from './temperature';
+import { getCurrentWeather, useLocationFromContext, getLocationName } from '../../utils/current-forecast-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
+import { CurrentWeatherData } from '../../api/models/weather-model';
+import { LocationContext } from '../../context/LocationContext';
 
 //TODO: USE NEW API ENDPOINTS AND ENSURE WE ARE ALWAYS PASSING IN A LOCATION TO THE TEMPERATURE PROP. LOOK INTO RENAMING THE TEMPERATURE.TSX AND UTIL FILE. MOVE ALL FUNCTIONS INTO UTIL.
 const CurrentForecast = () => {
-  const context = useContext(LocationContext);
-  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
+  const [location, setLocation] = useState<string>('');
+
+  const { lat, lon } = useLocationFromContext();
 
   useEffect(() => {
-    const handleFetchTemperature = async () => {
-      if (!context || !context.locationData) {
-        setError('Location data is not available');
-        setLoading(false);
-        return;
-      }
-
-      setError(null);
+    const fetchWeather = async () => {
       try {
-        const data = await fetchTemperature(context.locationData.lat.toString(), context.locationData.lng.toString());
-        setWeather(data);
-      } catch (err) {
+        const weather = await getCurrentWeather(lat, lon);
+        setCurrentWeather(weather);
+        const locationName = await getLocationName(lat, lon);
+        setLocation(locationName);
+      } catch (error) {
         setError('Failed to fetch weather data');
       } finally {
         setLoading(false);
       }
     };
 
-    handleFetchTemperature();
-  }, [context]);
+    fetchWeather();
+  }, [lat, lon]);
 
-  const getTodayWeather = () => {
-    if (!weather) return null;
-    const now = new Date();
-    const today = now.toISOString().split('T')[0];
-    const currentHour = now.getHours();
-    const index = weather.hourly.time.findIndex((time: string) => {
-      const [date, hour] = time.split('T');
-      return date === today && parseInt(hour.split(':')[0]) === currentHour;
-    });
-    if (index === -1) return null;
-    return {
-      time: weather.hourly.time[index],
-      temp: weather.hourly.temperature_2m[index],
-    };
-  };
-
-  const getLocationName = () => {
-    if (!context || !context.locationData) return '';
-    return context.locationData.place_name;
-  };
-
-  const todayWeather = getTodayWeather();
 
   return (
     <Box className="container" mx="auto" p="4">
@@ -66,8 +41,8 @@ const CurrentForecast = () => {
         {error}
       </Alert>
     )}
-    {todayWeather ? (
-      <Temperature temperature={todayWeather} location={getLocationName()} />
+    {currentWeather ? (
+      <Temperature temperature={currentWeather.temperature_2m} location={location} />
     ) : (
       <Text>No weather data available for the current time.</Text>
     )}
