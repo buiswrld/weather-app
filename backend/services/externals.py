@@ -12,14 +12,13 @@ load_dotenv()
 OPENCAGE_API_KEY = os.getenv('OPENCAGE_API_KEY')
 geocoder = OpenCageGeocode(OPENCAGE_API_KEY)
 
-# Setup the Open-Meteo API client with cache and retry on error
+# Initialize Open-Meteo API: Setup the Open-Meteo API client with cache and retry on error
+METEO_URL = 'https://api.open-meteo.com/v1/forecast'
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 
-# API URL
-METEO_URL = 'https://api.open-meteo.com/v1/forecast'
 
-# Define the PARAMS dictionary as a global constant
+# Open-Meteo API Parameters
 PARAMS = {
     'latitude': None,
     'longitude': None,
@@ -31,20 +30,19 @@ PARAMS = {
 }
 
 def build_weather_request(lat: str, lon: str) -> dict:
-    # Update latitude and longitude in the PARAMS dictionary
     PARAMS['latitude'] = lat
     PARAMS['longitude'] = lon
     
     response = retry_session.get(METEO_URL, params=PARAMS)
-    response.raise_for_status()  # Raise an exception for HTTP errors
+    response.raise_for_status()  
     return response.json()
 
 ### Weather Data ###
 
-def get_current_weather(lat: str, lon: str) -> dict:
+def get_current_weather(lat: str, lon: str) -> list:
     response = build_weather_request(lat, lon)
     current = response['current']
-    return {key: current[key] for key in PARAMS['current']}
+    return [{key: current[key] for key in PARAMS['current']}]
 
 def get_hourly_weather(lat: str, lon: str) -> list:
     response = build_weather_request(lat, lon)
@@ -64,10 +62,15 @@ def get_daily_weather(lat: str, lon: str) -> list:
     daily = response['daily']
     daily_data = []
     for i in range(len(daily['time'])):
-        daily_data.append({
+        day_data = {
             'date': daily['time'][i],
             **{key: daily[key][i] for key in PARAMS['daily']}
-        })
+        }
+        if 'sunrise' in day_data:
+            day_data['sunrise'] = day_data['sunrise'].split('T')[1]
+        if 'sunset' in day_data:
+            day_data['sunset'] = day_data['sunset'].split('T')[1]
+        daily_data.append(day_data)
     return daily_data
 
 ### Location Data ###
@@ -84,7 +87,7 @@ def get_location_from_coords(lat: int, lon: int) -> str:
 ### TESTING ###
 
 if __name__ == '__main__':
-    lat, lon = 34, -118
+    lat, lon = 49, -119
     print('Current Weather:')
     print(json.dumps(get_hourly_weather(lat, lon), indent=4))
 
