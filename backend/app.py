@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from backend.services.externals import get_current_weather, get_hourly_weather, get_daily_weather, get_coords_from_location, get_location_from_coords
-from backend.utils.date_conversion import process_date_range_and_filter_data
+from services.externals import get_current_weather, get_hourly_weather, get_daily_weather, get_coords_from_location, get_location_from_coords
+from utils.date_conversion import process_date_range_and_filter_data
 import sqlite3
 
 app = Flask(__name__)
@@ -14,7 +14,7 @@ def get_location() -> dict:
     return jsonify(data)
 
 @app.route('/api/current', methods=['GET'])
-def get_current_weather() -> list:
+def get_current_weather_route() -> list:
     """
     Get current weather data
 
@@ -30,8 +30,8 @@ def get_current_weather() -> list:
     data = get_current_weather(lat, lon)
     return jsonify(data)
 
-@app.route('/api/hourly/<day>', methods=['GET'])
-def get_hourly_weather() -> list:
+@app.route('/api/hourly', methods=['GET'])
+def get_hourly_weather_route() -> list:
     """
     Get hourly weather data (per hour for a 7 day period)
 
@@ -60,8 +60,8 @@ def get_hourly_weather() -> list:
     
     return jsonify(result)
 
-@app.route('/api/daily/<day>', methods=['GET'])
-def get_daily_weather(day: str) -> list:
+@app.route('/api/daily', methods=['GET'])
+def get_daily_weather_route() -> list:
     """
     Get daily weather data (per day for 7 day period), or in a specified range
 

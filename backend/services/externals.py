@@ -84,10 +84,4 @@ def get_location_from_coords(lat: int, lon: int) -> str:
     results = geocoder.reverse_geocode(lat, lon)
     return results[0]['formatted']
 
-### TESTING ###
-
-if __name__ == '__main__':
-    lat, lon = 49, -119
-    print('Current Weather:')
-    print(json.dumps(get_hourly_weather(lat, lon), indent=4))
 

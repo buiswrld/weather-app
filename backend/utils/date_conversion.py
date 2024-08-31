@@ -1,5 +1,5 @@
 from datetime import datetime
-from collections.abc import Tuple, List, Dict, Any
+from typing import Any, Dict, List, Tuple
 
 def parse_date_range(start_date_str: str, end_date_str: str) -> Tuple[datetime, datetime]:
     try:
@@ -19,4 +19,5 @@ def process_date_range_and_filter_data(data: List[Dict[str, Any]], start_date_st
         start_date, end_date = parse_date_range(start_date_str, end_date_str)
     except ValueError as e:
         raise ValueError(str(e))
+
     return filter_data_by_date_range(data, start_date, end_date)
