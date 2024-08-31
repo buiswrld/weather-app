@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 from unittest.mock import patch, MagicMock
-from externals import get_location_data
+from backend.services.externals import get_location_data
 
 class TestGetLocationData(unittest.TestCase):
     @patch('externals.OpenCageGeocode')

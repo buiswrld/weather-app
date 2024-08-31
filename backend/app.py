@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from externals import get_temperature_data, get_location_data
+from backend.services.externals import get_temperature_data, get_location_data
 import sqlite3
 
 app = Flask(__name__)
