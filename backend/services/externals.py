@@ -75,13 +75,13 @@ def get_daily_weather(lat: str, lon: str) -> list:
 
 ### Location Data ###
 
-def get_coords_from_location(location: str) -> dict:
+def get_coords_from_location(location: str) -> list:
     results = geocoder.geocode(location)
     coordinates = results[0]['geometry']
-    return {'lat': coordinates['lat'], 'lng': coordinates['lng']}
+    return [{'lat': coordinates['lat'], 'lon': coordinates['lng']}]
 
-def get_location_from_coords(lat: int, lon: int) -> str:
+def get_location_from_coords(lat: int, lon: int) -> list:
     results = geocoder.reverse_geocode(lat, lon)
-    return results[0]['formatted']
+    return [{"location": results[0]['formatted']}]
 
 

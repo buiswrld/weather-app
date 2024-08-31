@@ -7,10 +7,25 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/api/coords', methods=['GET'])
+def get_coords() -> dict:
+    """
+    Get coordinates from a named location (for processing)
+
+    Query Parameters:
+    - location (str): Location name
+
+    Returns:
+    - dict: A dictionary containing latitude and longitude coordinates.
+    """
+    location = request.args.get('location')
+    data = get_coords_from_location(location)
+    return jsonify(data)
+
 @app.route('/api/location', methods=['GET'])
 def get_location() -> dict:
-    location = request.args.get('location')
-    data = get_location_data(location)
+    lat, lon = request.args.get('lat'), request.args.get('lon')
+    data = get_location_from_coords(lat, lon)
     return jsonify(data)
 
 @app.route('/api/current', methods=['GET'])
