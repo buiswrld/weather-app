@@ -6,7 +6,12 @@ interface LocationContextProps {
   setLocationData: (data: LocationCoords) => void;
 }
 
-export const LocationContext = createContext<LocationContextProps | undefined>(undefined);
+const defaultLocationContext: LocationContextProps = {
+  locationData: { lat: 0, lon: 0 },
+  setLocationData: () => {}
+};
+
+export const LocationContext = createContext<LocationContextProps>(defaultLocationContext);
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
   const [locationData, setLocationData] = useState<LocationCoords>({"lat": 0, "lon": 0});

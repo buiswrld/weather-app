@@ -1,7 +1,7 @@
 export interface CurrentWeatherData {
     temperature_2m: number;
     apparent_temperature: number;
-    is_day: boolean;
+    is_day: number;
 }
 
 export interface HourlyWeatherData {
