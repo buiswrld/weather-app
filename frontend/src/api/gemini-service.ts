@@ -4,7 +4,7 @@ export const fetchGeminiResponse = async (query: string): Promise<string> => {
         if (!response.ok) {
             throw new Error('Failed to fetch Gemini response');
         }
-        const data = await response.json();
+        const data = await response.text();
         return data;
     } catch (error) {
         console.error('Error in fetchGeminiResponse:', error);

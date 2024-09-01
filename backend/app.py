@@ -23,6 +23,7 @@ def get_gemini_response_route() -> str:
     if not query:
         return jsonify({"error": "query parameter is required"}), 400
     response = get_gemini_response(query)
+    print("Gemini response: ", response)
     return response
 
 @app.route('/api/coords', methods=['GET'])

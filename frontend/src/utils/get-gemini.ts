@@ -1,5 +1,3 @@
-// frontend/src/hooks/useGeminiResponse.ts
-
 import { useState, useEffect } from 'react';
 import { fetchDailyWeather, fetchHourlyWeather, fetchCurrentWeather } from '../api/weather-service';
 import { fetchGeminiResponse } from '../api/gemini-service';
@@ -22,18 +20,16 @@ export const useGeminiResponse = () => {
                 const hourlyWeather = await fetchHourlyWeather(lat, lon, rangeStart, rangeEnd);
                 const dailyWeather = await fetchDailyWeather(lat, lon, rangeStart, rangeEnd); 
 
-                // Combine weather data into a single object
                 const weatherData = {
                     current: currentWeather,
                     hourly: hourlyWeather,
                     daily: dailyWeather,
                 };
 
-                // Convert weather data to a string format (e.g., JSON)
                 const weatherDataStr = JSON.stringify(weatherData);
+                const prompt = `This is weather data.  Please provide a useful summary of the weather for an average user. This summary might include important times to know or clothing reccomendations, although not required. Be somewhat concise in your response, but be more particular about the weather at the earliest date provided. This place is located at the coordinates: (${lat}, ${lon}). Here is the data: ${weatherDataStr}`;
 
-                // Send the weather data to the Gemini service
-                const response = await fetchGeminiResponse(weatherDataStr);
+                const response = await fetchGeminiResponse(prompt);
                 setGeminiResponse(response);
             } catch (error) {
                 console.error('Error in getGeminiResponse:', error);

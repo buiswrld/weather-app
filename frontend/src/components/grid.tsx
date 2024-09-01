@@ -2,7 +2,7 @@ import React from 'react';
 import {SimpleGrid, Box} from '@chakra-ui/react';
 import FutureForecast from './future/future-forecast';
 import CurrentForecast from './current/current-forecast';
-
+import GeminiContainer from './gemini/gemini-container';
 
 const Grid = () => {
 
@@ -20,7 +20,9 @@ const Grid = () => {
             <Box {...boxStyles}>
                 <CurrentForecast />
             </Box>
-            <Box {...boxStyles}></Box>
+            <Box {...boxStyles}>
+                <GeminiContainer />
+            </Box>
         </SimpleGrid>
     )
 }
