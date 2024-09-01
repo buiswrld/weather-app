@@ -76,7 +76,7 @@ export const getNextFiveDates = (): Date[] => {
     const dates: Date[] = [];
     const today = new Date();
   
-    for (let i = 0; i < 5; i++) {
+    for (let i = 1; i <= 5; i++) {
       const nextDate = new Date(today);
       nextDate.setDate(today.getDate() + i);
       dates.push(nextDate);

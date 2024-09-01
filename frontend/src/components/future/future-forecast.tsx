@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Stack, Card, CardHeader, CardBody, Heading, Text } from '@chakra-ui/react';
+import { Stack, Card, CardHeader, Heading, Text } from '@chakra-ui/react';
 import { getDateTime } from '../../utils/time';
 import { weatherCodeDescriptions } from '../../utils/weathercodes';
 import { getDailyWeather } from '../../utils/get-weather';
@@ -35,7 +35,7 @@ const FutureForecast: React.FC = () => {
     <Stack spacing="4" marginX="10px" marginY="10px">
       {nextFiveDates.map((date: Date, index: number) => {
         const formattedDate = getDateTime(date).date;
-        const weather = weatherData[index];
+        const weather = weatherData[index+1];
 
         const description = weather ? weatherCodeDescriptions[weather.weathercode].split(':')[0]: 'Loading...';
 

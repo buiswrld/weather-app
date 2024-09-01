@@ -1,6 +1,8 @@
 import os
 import json
 import requests
+import vertexai
+from vertexai.generative_models import GenerativeModel
 from dotenv import load_dotenv
 from opencage.geocoder import OpenCageGeocode
 import requests_cache
@@ -16,6 +18,11 @@ geocoder = OpenCageGeocode(OPENCAGE_API_KEY)
 METEO_URL = 'https://api.open-meteo.com/v1/forecast'
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+
+## Initialize Gemini API
+PROJECT_ID = os.getenv('GEMINI_PROJECT_ID')
+vertexai.init(project=PROJECT_ID, region='us-central1')
+model = GenerativeModel('gemini-1.5-flash-001')
 
 
 # Open-Meteo API Parameters
@@ -108,5 +115,11 @@ def get_location_from_coords(lat: int, lon: int) -> list:
         location = "Unknown Location"
 
     return [{"location": location, "timezone_offset": timezone_offset}]
+
+### Gemini ###
+def get_gemini_response(query: str) -> str:
+    response = model.generate(query)
+    return response.text
+    
 
 

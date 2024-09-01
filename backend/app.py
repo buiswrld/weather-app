@@ -1,12 +1,29 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import logging
-from services.externals import get_current_weather, get_hourly_weather, get_daily_weather, get_coords_from_location, get_location_from_coords
+from services.externals import get_current_weather, get_hourly_weather, get_daily_weather, get_coords_from_location, get_location_from_coords, get_gemini_response
 from utils.date_conversion import process_date_range_and_filter_data
 import sqlite3
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/api/gemini', methods=['GET'])
+def get_gemini_response_route() -> str:
+    """
+    Get Gemini response
+
+    Query Parameters:
+    - query (str): Query text
+
+    Returns:
+    - str: Gemini response
+    """
+    query = request.args.get('query')
+    if not query:
+        return jsonify({"error": "query parameter is required"}), 400
+    response = get_gemini_response(query)
+    return response
 
 @app.route('/api/coords', methods=['GET'])
 def get_coords() -> dict:
