@@ -28,13 +28,13 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
   export const getDailyWeather = async (lat: string, lon: string): Promise<DailyWeatherData> => {
     try {
       const datetime = getDateTime();
-      const currentDate = datetime.date;
-      const currentTime = datetime.time;
+      const currentDate = datetime.date.toString();
 
-      const data = await fetchDailyWeather(lat, lon, currentDate, currentTime);
+      console.log(currentDate);
+      const data = await fetchDailyWeather(lat, lon, currentDate, currentDate);
       const weather = data[0];
       return {
-        date: currentDate,
+        date: weather.date,
         temperature_2m_max: weather.temperature_2m_max,
         temperature_2m_min: weather.temperature_2m_min,
         sunrise: weather.sunrise,

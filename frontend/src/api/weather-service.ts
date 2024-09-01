@@ -15,15 +15,20 @@ export const fetchHourlyWeather = async (lat: string, lon: string, startDate: st
         throw new Error('Failed to fetch hourly weather data');
     }
     const data = await response.json();
-    console.log(data);
     return data;
 }
 
 export const fetchDailyWeather = async (lat: string, lon: string, startDate: string, endDate: string): Promise<DailyWeatherData[]> => {
-    const response = await fetch(`http://localhost:5000/api/weather/daily?lat=${lat}&lon=${lon}&start_date=${startDate}&end_date=${endDate}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch daily weather data');
+    try {
+        const response = await fetch(`http://localhost:5000/api/weather/daily?lat=${lat}&lon=${lon}&start_date=${startDate}&end_date=${endDate}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch daily weather data');
+        }
+        const data = await response.json();
+        console.log('Daily Weather Data:', data); 
+        return data;
+    } catch (error) {
+        console.error('Error in fetchDailyWeather:', error); 
+        throw error;
     }
-    const data = await response.json();
-    return data;
 }

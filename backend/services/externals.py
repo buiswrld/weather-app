@@ -93,9 +93,16 @@ def get_location_from_coords(lat: int, lon: int) -> list:
     country = components.get('country', '')
 
     if country == 'United States':
-        location = f"{city}, {state}, USA"
-    else:
+        if city:
+            location = f"{city}, {state}, USA"
+        else:
+            location = f"{state}, USA"
+    elif city:
         location = f"{city}, {country}"
+    elif country:
+        location = country
+    else:
+        location = "Unknown Location"
 
     return [{"location": location}]
 

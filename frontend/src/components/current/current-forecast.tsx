@@ -16,6 +16,7 @@ const CurrentForecast = () => {
 
 
   useEffect(() => {
+    console.log(`useEffect triggered with lat: ${lat} and lon: ${lon}`);
     if (lat && lon) {
       const fetchWeather = async () => {
         try {
