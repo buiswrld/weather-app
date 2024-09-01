@@ -1,10 +1,8 @@
 import { useContext } from 'react';
 import { LocationContext } from '../context/LocationContext';
-import { CurrentWeatherData, DailyWeatherData } from '../api/models/weather-model';
-import { fetchCurrentWeather } from '../api/weather-service';
+import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../api/models/weather-model';
+import { fetchCurrentWeather, fetchDailyWeather, fetchHourlyWeather } from '../api/weather-service';
 import { fetchLocationName } from '../api/location-service';
-import { fetchDailyWeather } from '../api/weather-service';
-
 
 export const getCurrentWeather = async (lat: string, lon: string): Promise<CurrentWeatherData> => {
     try {
@@ -30,7 +28,6 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       const datetime = getDateTime();
       const currentDate = datetime.date.toString();
 
-      console.log(currentDate);
       const data = await fetchDailyWeather(lat, lon, currentDate, currentDate);
       const weather = data[0];
       return {
@@ -50,6 +47,35 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
         sunrise: "00:00:00",
         sunset: "00:00:00",
         uv_index_max: 0
+      }
+    }
+  };
+
+  export const getHourlyWeather = async (lat: string, lon: string): Promise<HourlyWeatherData> => {
+    try {
+      const datetime = getDateTime();
+      const currentDate = datetime.date.toString();
+
+      const data = await fetchHourlyWeather(lat, lon, currentDate, currentDate);
+      const weather = data[0];
+
+      return {
+        date: weather.date,
+        time: weather.time,
+        temperature_2m: weather.temperature_2m,
+        precipitation_probability: weather.precipitation_probability,
+        precipitation: weather.precipitation,
+        weathercode: weather.weathercode
+      };
+    } catch (error) {
+      console.error('Error fetching current weather:', error);
+      return {
+        date: "0000-00-00",
+        time: "00:00:00",
+        temperature_2m: 0,
+        precipitation_probability: 0,
+        precipitation: 0,
+        weathercode: 0
       }
     }
   };

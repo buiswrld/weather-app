@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Temperature from './temperature';
-import { getCurrentWeather, useLocationFromContext, getLocationName, getDailyWeather } from '../../utils/current-forecast-util';
+import { getCurrentWeather, useLocationFromContext, getLocationName, getDailyWeather, getHourlyWeather } from '../../utils/current-forecast-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
-import { CurrentWeatherData, DailyWeatherData } from '../../api/models/weather-model';
+import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../../api/models/weather-model';
 
 const CurrentForecast = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
   const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(null);
+  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeatherData | null>(null);
   const [location, setLocation] = useState<string>('');
 
   const { lat, lon } = useLocationFromContext();
@@ -21,6 +22,7 @@ const CurrentForecast = () => {
       const fetchWeather = async () => {
         try {
           setCurrentWeather(await getCurrentWeather(lat, lon));
+          setHourlyWeather(await getHourlyWeather(lat, lon));
           setDailyWeather(await getDailyWeather(lat, lon))
           setLocation(await getLocationName(lat, lon));
         } catch (error) {
@@ -47,8 +49,14 @@ const CurrentForecast = () => {
           {error}
         </Alert>
       )}
-      {currentWeather ? (
-        <Temperature temperature={currentWeather.temperature_2m} location={location} />
+      {currentWeather && hourlyWeather ? (
+        <Temperature 
+          temperature={currentWeather.temperature_2m} 
+          is_day = {currentWeather.is_day} 
+          apparent_temperature = {currentWeather.apparent_temperature} 
+          location = {location} 
+          weathercode = {hourlyWeather.weathercode}
+        />
       ) : (
         <Text>No weather data available for the current time.</Text>
       )}

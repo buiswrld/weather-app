@@ -23,7 +23,7 @@ PARAMS = {
     'latitude': None,
     'longitude': None,
     'current': ['temperature_2m', 'apparent_temperature', 'is_day'],
-    'hourly': ['temperature_2m', 'precipitation_probability', 'precipitation'],
+    'hourly': ['temperature_2m', 'precipitation_probability', 'precipitation', 'weathercode'],
     'daily': ['temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', 'uv_index_max'],
     'temperature_unit': 'fahrenheit',
     'timezone': 'auto'

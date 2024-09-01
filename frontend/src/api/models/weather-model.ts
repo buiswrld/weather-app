@@ -10,6 +10,7 @@ export interface HourlyWeatherData {
     temperature_2m: number;
     precipitation_probability: number;
     precipitation: number;
+    weathercode: number;
 }
 
 export interface DailyWeatherData {
