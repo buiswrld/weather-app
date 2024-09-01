@@ -11,7 +11,7 @@ const Header = () => {
 
   useEffect(() => {
     const updateDateTime = () => {
-      const { date, time } = getDateTime();
+      const { date, time } = getDateTime(new Date());
       setDate(date);
       setTime(time);
     };

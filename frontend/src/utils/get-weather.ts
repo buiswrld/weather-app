@@ -1,6 +1,6 @@
 import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from "../api/models/weather-model";
 import { fetchCurrentWeather, fetchDailyWeather, fetchHourlyWeather } from "../api/weather-service";
-import { getDateTime } from  "./time";
+import { getDateTime, floorTimeToHour } from  "./time";
 
 export const getCurrentWeather = async (lat: string, lon: string): Promise<CurrentWeatherData> => {
     try {
@@ -23,7 +23,7 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
 
   export const getDailyWeather = async (lat: string, lon: string): Promise<DailyWeatherData> => {
     try {
-      const datetime = getDateTime();
+      const datetime = getDateTime(new Date());
       const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
 
       const data = await fetchDailyWeather(lat, lon, currentDateTime, currentDateTime);
@@ -51,30 +51,33 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
 
   export const getHourlyWeather = async (lat: string, lon: string): Promise<HourlyWeatherData[]> => {
     try {
-      const datetime = getDateTime();
-      const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
+      const currentDate = new Date();
+      const currentDateTime = getDateTime(currentDate);
+      const flooredCurrentTime = floorTimeToHour(currentDateTime.time);
   
-      const data = await fetchHourlyWeather(lat, lon, currentDateTime, currentDateTime);
-      const startDateTime = new Date();
-      startDateTime.setMinutes(0, 0, 0);
+      const endDate = new Date(currentDate);
+      endDate.setDate(endDate.getDate() + 1);
+      const endDateTime = getDateTime(endDate);
   
-      const endDateTime = new Date(startDateTime);
-      endDateTime.setDate(startDateTime.getDate() + 1);
+      const data = await fetchHourlyWeather(
+        lat, 
+        lon, 
+        `${currentDateTime.date} ${currentDateTime.time}`, 
+        `${endDateTime.date} ${endDateTime.time}`
+      );
   
-      const next24HoursData = data.filter((weather) => {
-        const weatherDateTime = new Date(weather.date + 'T' + weather.time);
-        return weatherDateTime >= startDateTime && weatherDateTime < endDateTime;
-      });
-  
-  
+      const startIndex = data.findIndex(weather => weather.time === flooredCurrentTime);
+      const next24HoursData = data.slice(startIndex, startIndex + 24);
+
       return next24HoursData.map(weather => ({
         date: weather.date,
-        time: weather.time,
+        time: floorTimeToHour(weather.time),
         temperature_2m: weather.temperature_2m,
         precipitation_probability: weather.precipitation_probability,
         precipitation: weather.precipitation,
         weathercode: weather.weathercode
       }));
+
     } catch (error) {
       console.error('Error fetching hourly weather:', error);
       return [{

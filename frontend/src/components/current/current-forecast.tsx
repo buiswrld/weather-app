@@ -1,61 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import Temperature from './temperature'
-import Location from './location'
-import TemperatureBound from './temperature-bound'
-import HourlyForecast from './hourly-forecast'
-import ExtraForecast from './extra-forecast'
+import React, { useEffect, useState } from "react";
+import Temperature from "./temperature";
+import Location from "./location";
+import TemperatureBound from "./temperature-bound";
+import HourlyForecast from "./hourly-forecast";
+import ExtraForecast from "./extra-forecast";
 import {
   getCurrentWeather,
   getDailyWeather,
   getHourlyWeather,
-} from '../../utils/get-weather'
+} from "../../utils/get-weather";
 import {
   useLocationFromContext,
   getLocationName,
-} from '../../utils/location-util'
-import { Box, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react'
+} from "../../utils/location-util";
+import { Box, Text, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
 import {
   CurrentWeatherData,
   DailyWeatherData,
   HourlyWeatherData,
-} from '../../api/models/weather-model'
+} from "../../api/models/weather-model";
 
 const CurrentForecast = () => {
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] =
-    useState<CurrentWeatherData | null>(null)
+    useState<CurrentWeatherData | null>(null);
   const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(
-    null,
-  )
+    null
+  );
   const [hourlyWeather, setHourlyWeather] = useState<
     HourlyWeatherData[] | null
-  >(null)
-  const [location, setLocation] = useState<string>('')
+  >(null);
+  const [location, setLocation] = useState<string>("");
 
-  const { lat, lon } = useLocationFromContext()
+  const { lat, lon } = useLocationFromContext();
 
   useEffect(() => {
     const fetchWeather = async () => {
       if (lat && lon) {
-        setLoading(true)
+        setLoading(true);
         try {
-          setCurrentWeather(await getCurrentWeather(lat, lon))
-          setHourlyWeather(await getHourlyWeather(lat, lon))
-          setDailyWeather(await getDailyWeather(lat, lon))
-          setLocation(await getLocationName(lat, lon))
+          setCurrentWeather(await getCurrentWeather(lat, lon));
+          setHourlyWeather(await getHourlyWeather(lat, lon));
+          setDailyWeather(await getDailyWeather(lat, lon));
+          setLocation(await getLocationName(lat, lon));
         } catch (error) {
-          setError('Failed to fetch weather data')
+          setError("Failed to fetch weather data");
         } finally {
-          setLoading(false)
+          setLoading(false);
         }
       }
-    }
-    fetchWeather()
-  }, [lat, lon])
+    };
+    fetchWeather();
+  }, [lat, lon]);
 
   if (!lat || !lon) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
@@ -105,7 +105,7 @@ const CurrentForecast = () => {
         </Box>
       ) : null}
     </Box>
-  )
-}
+  );
+};
 
-export default CurrentForecast
+export default CurrentForecast;
