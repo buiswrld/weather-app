@@ -55,13 +55,17 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
   
       const data = await fetchHourlyWeather(lat, lon, currentDateTime, currentDateTime);
-      const startDateTime = new Date(data[0].date + 'T' + data[0].time);
+      const startDateTime = new Date();
+      startDateTime.setMinutes(0, 0, 0);
+  
+      const endDateTime = new Date(startDateTime);
+      endDateTime.setDate(startDateTime.getDate() + 1);
   
       const next24HoursData = data.filter((weather) => {
         const weatherDateTime = new Date(weather.date + 'T' + weather.time);
-        const timeDifference = (weatherDateTime.getTime() - startDateTime.getTime()) / (1000 * 60 * 60);
-        return timeDifference >= 0 && timeDifference < 24;
+        return weatherDateTime >= startDateTime && weatherDateTime < endDateTime;
       });
+  
   
       return next24HoursData.map(weather => ({
         date: weather.date,
