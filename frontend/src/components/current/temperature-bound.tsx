@@ -1,5 +1,4 @@
 import React from 'react';
-import { weatherCodeDescriptions } from '../../utils/weathercodes';
 import { Card, CardHeader, Box, Heading, Text } from '@chakra-ui/react';
 
 interface TemperatureBoundProps {

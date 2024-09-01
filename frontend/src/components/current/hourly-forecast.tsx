@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { Box, Text, Card } from '@chakra-ui/react';
 import { HourlyWeatherData } from '../../api/models/weather-model';

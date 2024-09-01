@@ -6,7 +6,7 @@ import HourlyForecast from './hourly-forecast';
 import ExtraForecast from './extra-forecast';
 import { getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../utils/get-weather';
 import { useLocationFromContext, getLocationName } from '../../utils/location-util';
-import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
+import { Box, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../../api/models/weather-model';
 
 const CurrentForecast = () => {

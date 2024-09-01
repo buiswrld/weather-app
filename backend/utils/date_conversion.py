@@ -29,8 +29,16 @@ def process_date_range_and_filter_data(data: List[Dict[str, Any]], start_date_st
         end_date = adjust_date_for_timezone(end_date, offset_sec)
     except ValueError as e:
         raise ValueError(str(e))
+    
+    filtered_data = filter_data_by_date_range(data, start_date, end_date)
 
-    return filter_data_by_date_range(data, start_date, end_date)
+    if not filtered_data:
+        # If no data is returned, offset the time filter by one day and try again
+        start_date += timedelta(days=1)
+        end_date += timedelta(days=1)
+        filtered_data = filter_data_by_date_range(data, start_date, end_date)
+
+    return filtered_data
 
 def convert_to_yyyy_mm_dd(date_str: str) -> datetime:
     try:
