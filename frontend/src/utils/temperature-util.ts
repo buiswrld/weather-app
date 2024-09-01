@@ -9,8 +9,3 @@ export const getBackgroundColor = (temp: number): string => {
         return 'linear-gradient(to right, #fff49e, #ff9696)'; // Hot: Yellow to Red
     }
 };
-
-// TODO: MAKE SURE THIS DOESNT RETURN A DEFAULT VALUE, DISPLAY ERROR MESSAGE
-export const processLocation = (location: string): string => {
-    return location;
-};

@@ -1,40 +1,36 @@
 import React from 'react';
-import { weatherCodeDescriptions } from '../../utils/weathercodes';
-import { getBackgroundColor, processLocation } from '../../utils/temperature-util';
-import { Card, CardHeader, CardBody, Heading, Text } from '@chakra-ui/react';
+import { getBackgroundColor } from '../../utils/temperature-util';
+import { Card, CardHeader, Box, Heading, Text } from '@chakra-ui/react';
 
 interface TemperatureProps {
   temperature: number
-  location: string
   is_day: number
   apparent_temperature: number,
-  weathercode: number
+  temp_max: number
+  temp_min: number
 }
 
 const daySymbol = (is_day: number) => {
     return is_day === 1 ? "🌞" : "🌜";
 }
 
-const Temperature: React.FC<TemperatureProps> = ({ temperature, location, is_day, apparent_temperature, weathercode }) => {
+const Temperature: React.FC<TemperatureProps> = ({ temperature, is_day, apparent_temperature, temp_max, temp_min }) => {
     const backgroundColor = getBackgroundColor(temperature);
-    const locationText = processLocation(location);
-    const weatherDescription = weatherCodeDescriptions[weathercode];
     return (
-        <Card height = "100%" background = {backgroundColor}>
+    <Card height="100%" background={backgroundColor}>
         <CardHeader>
-            <Heading size='lg' textAlign = "left">
-                <Text as="span" textShadow="4px 4px 8px rgba(0, 0, 0, 0.5)">
-                    {daySymbol(is_day)}
-                </Text>
-                {temperature + "°F"}
-            </Heading>
-            <Heading size='sm'>Feels like: {apparent_temperature}°F</Heading>
-            <Heading size='sm'>{weatherDescription}</Heading>
+          <Heading size='xl' textAlign="center" mb={2} mr = {4}>
+            <Box display="flex" alignItems="center">
+              <Text as="span" textShadow="4px 4px 8px rgba(0, 0, 0, 0.5)">
+                {daySymbol(is_day)}
+              </Text>
+              <Text as="span" ml={2}>
+                {temperature + "°F "}
+              </Text>
+            </Box>
+          </Heading>
         </CardHeader>
-        <CardBody>
-            <strong><Text whiteSpace = "pre-line" textAlign = "right">{locationText}</Text></strong>
-        </CardBody>
-        </Card>
+      </Card>
     );
 };
 

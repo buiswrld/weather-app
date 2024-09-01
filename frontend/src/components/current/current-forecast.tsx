@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Temperature from './temperature';
+import Location from './location';
+import TemperatureBound from './temperature-bound';
 import { getCurrentWeather, useLocationFromContext, getLocationName, getDailyWeather, getHourlyWeather } from '../../utils/current-forecast-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../../api/models/weather-model';
@@ -49,14 +51,24 @@ const CurrentForecast = () => {
           {error}
         </Alert>
       )}
-      {currentWeather && hourlyWeather ? (
-        <Temperature 
-          temperature={currentWeather.temperature_2m} 
-          is_day = {currentWeather.is_day} 
-          apparent_temperature = {currentWeather.apparent_temperature} 
-          location = {location} 
-          weathercode = {hourlyWeather.weathercode}
-        />
+      {currentWeather && hourlyWeather && dailyWeather ? (
+      <Box>
+        <Location location={location} />
+        <Box display="flex" justifyContent="space-between" alignItems = "center">
+            <Temperature 
+              temperature={currentWeather.temperature_2m} 
+              is_day={currentWeather.is_day} 
+              apparent_temperature={currentWeather.apparent_temperature} 
+              temp_max={dailyWeather.temperature_2m_max}
+              temp_min={dailyWeather.temperature_2m_min}
+            />
+            <TemperatureBound 
+              is_day = {currentWeather.is_day}
+              temp_max={dailyWeather.temperature_2m_max} 
+              temp_min={dailyWeather.temperature_2m_min} 
+            />
+          </Box>
+      </Box>
       ) : (
         <Text>No weather data available for the current time.</Text>
       )}
