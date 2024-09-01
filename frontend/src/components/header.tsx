@@ -10,23 +10,9 @@ const Header = () => {
 
   useEffect(() => {
     const updateDateTime = () => {
-      const timeOptions: Intl.DateTimeFormatOptions = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: undefined,
-        hour12: true,
-      };
-
-      const dateOptions: Intl.DateTimeFormatOptions = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
-
-      const now = new Date();
-      setDate(now.toLocaleDateString('en-US', dateOptions));
-      setTime(now.toLocaleTimeString('en-US', timeOptions));
+      const { date, time } = getDateTime();
+      setDate(date);
+      setTime(time);
     };
 
     updateDateTime();
