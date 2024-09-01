@@ -3,6 +3,7 @@ import Temperature from './temperature';
 import Location from './location';
 import TemperatureBound from './temperature-bound';
 import HourlyForecast from './hourly-forecast';
+import ExtraForecast from './extra-forecast';
 import { getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../utils/get-weather';
 import { useLocationFromContext, getLocationName } from '../../utils/location-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
@@ -70,8 +71,10 @@ const CurrentForecast = () => {
               temp_min={dailyWeather.temperature_2m_min} 
             />
           </Box>
-        <Heading size="md">Hourly Forecast</Heading>
-        <HourlyForecast data={hourlyWeather} />
+          <ExtraForecast uvIndex = {dailyWeather.uv_index_max} apparentTemperature={currentWeather.apparent_temperature} />
+          <Box>
+          </Box>
+        <HourlyForecast data={hourlyWeather} sunrise = {dailyWeather.sunrise} sunset={dailyWeather.sunset} />
       </Box>
       ) : (
         <Text>No weather data available for the current time.</Text>

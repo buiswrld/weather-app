@@ -15,7 +15,7 @@ const daySymbol = (is_day: number) => {
 }
 
 const Temperature: React.FC<TemperatureProps> = ({ temperature, is_day, apparent_temperature, temp_max, temp_min }) => {
-    const backgroundColor = getBackgroundColor(temperature);
+    const backgroundColor = getBackgroundColor(temperature, false);
     return (
       <Card height="100%" width="56%" background={backgroundColor}>
       <CardHeader>
