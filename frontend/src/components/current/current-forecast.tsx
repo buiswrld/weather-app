@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Temperature from './temperature';
-import { getCurrentWeather, useLocationFromContext, getLocationName } from '../../utils/current-forecast-util';
+import { getCurrentWeather, useLocationFromContext, getLocationName, getDailyWeather } from '../../utils/current-forecast-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
-import { CurrentWeatherData,  } from '../../api/models/weather-model';
-import { LocationContext } from '../../context/LocationContext';
+import { CurrentWeatherData, DailyWeatherData } from '../../api/models/weather-model';
 
 const CurrentForecast = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
+  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(null);
   const [location, setLocation] = useState<string>('');
 
   const { lat, lon } = useLocationFromContext();
@@ -19,10 +19,9 @@ const CurrentForecast = () => {
     if (lat && lon) {
       const fetchWeather = async () => {
         try {
-          const weather = await getCurrentWeather(lat, lon);
-          setCurrentWeather(weather);
-          const locationName = await getLocationName(lat, lon);
-          setLocation(locationName);
+          setCurrentWeather(await getCurrentWeather(lat, lon));
+          setDailyWeather(await getDailyWeather(lat, lon))
+          setLocation(await getLocationName(lat, lon));
         } catch (error) {
           setError('Failed to fetch weather data');
         } finally {
