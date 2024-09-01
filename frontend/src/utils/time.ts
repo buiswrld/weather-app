@@ -71,3 +71,16 @@ export function getEmojiForTime(
   }
   return isDaytime(time, sunrise, sunset) ? '☀️' : '🌙'
 }
+
+export const getNextFiveDates = (): Date[] => {
+    const dates: Date[] = [];
+    const today = new Date();
+  
+    for (let i = 0; i < 5; i++) {
+      const nextDate = new Date(today);
+      nextDate.setDate(today.getDate() + i);
+      dates.push(nextDate);
+    }
+  
+    return dates;
+  };

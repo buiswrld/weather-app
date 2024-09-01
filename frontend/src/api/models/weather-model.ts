@@ -20,4 +20,6 @@ export interface DailyWeatherData {
     sunrise: string;
     sunset: string;
     uv_index_max: number;
+    weathercode: number;
+    precipitation_probability_max: number;
 }

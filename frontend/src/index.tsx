@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
-import { LocationProvider } from './context/LocationContext';
+import { LocationProvider } from './context/location-context';
 import Theme from './theme';
 
 const root = ReactDOM.createRoot(

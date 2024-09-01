@@ -13,12 +13,14 @@ import {
   useLocationFromContext,
   getLocationName,
 } from "../../utils/location-util";
-import { Box, Text, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
+import { Box, Spinner, Alert, AlertIcon, Heading } from "@chakra-ui/react";
 import {
   CurrentWeatherData,
   DailyWeatherData,
   HourlyWeatherData,
 } from "../../api/models/weather-model";
+
+import { weatherCodeDescriptions } from "../../utils/weathercodes";
 
 const CurrentForecast = () => {
   const [error, setError] = useState<string | null>(null);
@@ -74,6 +76,9 @@ const CurrentForecast = () => {
       {!loading && currentWeather && hourlyWeather && dailyWeather ? (
         <Box>
           <Location location={location} />
+          <Heading size="sm" textAlign="center" mb={4}>
+          {weatherCodeDescriptions[dailyWeather[0].weathercode]}
+          </Heading>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -97,6 +102,7 @@ const CurrentForecast = () => {
             apparentTemperature={currentWeather.apparent_temperature}
           />
           <Box></Box>
+
           <HourlyForecast
             data={hourlyWeather}
             sunrise={dailyWeather[0].sunrise}

@@ -26,7 +26,7 @@ const ExtraForecast: React.FC<ExtraForecastProps> = ({
           Feels like
         </Text>
         <Text fontSize="2xl" color="orange.500">
-          {apparentTemperature}°C
+          {apparentTemperature}°F
         </Text>
       </Box>
       <Box
@@ -40,7 +40,7 @@ const ExtraForecast: React.FC<ExtraForecastProps> = ({
         mt={2}
       >
         <Text fontSize="xl" fontWeight="bold">
-          UV Index
+        UV Index
         </Text>
         <Text fontSize="2xl" color="teal.500">
           {uvIndex}

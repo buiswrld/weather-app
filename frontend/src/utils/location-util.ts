@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LocationContext } from '../context/LocationContext';
+import { LocationContext } from '../context/location-context';
 import { fetchLocationName } from '../api/location-service';
 
 export const getLocationName = async (lat: string, lon: string): Promise<string>=> {

@@ -41,7 +41,9 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
         temperature_2m_min: weather.temperature_2m_min,
         sunrise: weather.sunrise,
         sunset: weather.sunset,
-        uv_index_max: weather.uv_index_max
+        uv_index_max: weather.uv_index_max,
+        weathercode: weather.weathercode,
+        precipitation_probability_max: weather.precipitation_probability_max
       }));
     } catch (error) {
       console.error('Error fetching current weather:', error);
@@ -51,7 +53,10 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
         temperature_2m_min: 0,
         sunrise: "00:00:00",
         sunset: "00:00:00",
-        uv_index_max: 0
+        uv_index_max: 0,
+        weathercode: 0,
+        precipitation_probability_max: 0
+      
       }]
     }
   };

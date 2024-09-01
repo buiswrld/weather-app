@@ -1,26 +1,15 @@
-import { DailyWeatherData } from "../../api/models/weather-model";
-import { LocationContext } from "../../context/LocationContext"; // Assuming you have a LocationContext
-import { useEffect, useState, useContext } from "react";
-import { Stack, Card, CardHeader, Heading, CardBody, Text } from "@chakra-ui/react";
-import { getDailyWeather } from "../../utils/get-weather";
-import { getDateTime } from "../../utils/time";
+import React, { useEffect, useState, useContext } from 'react';
+import { Stack, Card, CardHeader, CardBody, Heading, Text } from '@chakra-ui/react';
+import { getDateTime } from '../../utils/time';
+import { weatherCodeDescriptions } from '../../utils/weathercodes';
+import { getDailyWeather } from '../../utils/get-weather';
+import { LocationContext } from '../../context/location-context';
+import { DailyWeatherData } from '../../api/models/weather-model';
+import { getNextFiveDates } from '../../utils/time';
 
-const FutureForecast = () => {
+const FutureForecast: React.FC = () => {
+  const { locationData } = useContext(LocationContext);
   const [weatherData, setWeatherData] = useState<DailyWeatherData[]>([]);
-  const { locationData } = useContext(LocationContext); // Use location context
-
-  const getNextFiveDates = () => {
-    const nextFiveDates = [];
-    const today = new Date();
-
-    for (let i = 0; i <= 5; i++) {
-      const futureDate = new Date(today);
-      futureDate.setDate(today.getDate() + i);
-      nextFiveDates.push(futureDate);
-    }
-
-    return nextFiveDates;
-  };
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -44,28 +33,26 @@ const FutureForecast = () => {
 
   return (
     <Stack spacing="4" marginX="10px" marginY="10px">
-      {nextFiveDates.map((date, index) => {
+      {nextFiveDates.map((date: Date, index: number) => {
         const formattedDate = getDateTime(date).date;
         const weather = weatherData[index];
+
+        const description = weather ? weatherCodeDescriptions[weather.weathercode].split(':')[0]: 'Loading...';
 
         return (
           <Card size="sm" key={formattedDate}>
             <CardHeader>
-              <Heading size="sm" textAlign="left">
+              <Heading size="sm" textAlign="left" mb={0}>
                 {formattedDate}
               </Heading>
             </CardHeader>
-            <CardBody>
-              {weather ? (
-                <>
-                  <Text>Max Temp: {weather.temperature_2m_max}°C</Text>
-                  <Text>Min Temp: {weather.temperature_2m_min}°C</Text>
-                  <Text>UV Index: {weather.uv_index_max}</Text>
-                </>
-              ) : (
-                <Text>Loading...</Text>
-              )}
-            </CardBody>
+            {weather ? (
+              <Text textAlign="left" ml={2} mb={2} >
+                🔥High: {weather.temperature_2m_max}° ❄️Low: {weather.temperature_2m_min}° {description}
+              </Text>
+            ) : (
+              <Text textAlign="left" ml={2} mb={2}>Loading...</Text>
+            )}
           </Card>
         );
       })}
