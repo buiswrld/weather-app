@@ -70,8 +70,11 @@ def get_hourly_weather_route() -> list:
     if not start_date_str or not end_date_str:
         return jsonify({"error": "start_date and end_date parameters are required"}), 400
     
-    daily_data = get_hourly_weather(lat, lon)
-    result = process_date_range_and_filter_data(daily_data, start_date_str, end_date_str)
+    location_data = get_location_from_coords(lat, lon)
+    offset_sec = location_data[0].get('offset_sec', 0)
+    
+    hourly_data = get_hourly_weather(lat, lon)
+    result = process_date_range_and_filter_data(hourly_data, start_date_str, end_date_str, offset_sec)
     
     if isinstance(result, str):
         return jsonify({"error": result}), 400
@@ -100,8 +103,13 @@ def get_daily_weather_route() -> list:
     if not start_date_str or not end_date_str:
         return jsonify({"error": "start_date and end_date parameters are required"}), 400
     
+    print(f"Received start_date_str: {start_date_str}, end_date_str: {end_date_str}")
+    
+    location_data = get_location_from_coords(lat, lon)
+    offset_sec = location_data[0].get('offset_sec', 0)
+    
     daily_data = get_daily_weather(lat, lon)
-    result = process_date_range_and_filter_data(daily_data, start_date_str, end_date_str)
+    result = process_date_range_and_filter_data(daily_data, start_date_str, end_date_str, offset_sec)
     
     if isinstance(result, str):
         return jsonify({"error": result}), 400

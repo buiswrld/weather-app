@@ -91,19 +91,22 @@ def get_location_from_coords(lat: int, lon: int) -> list:
     city = components.get('city', '')
     state = components.get('state', '')
     country = components.get('country', '')
+    timezone_offset = results[0].get('annotations', {}).get('timezone', {}).get('offset_sec', 0)
 
     if country == 'United States':
-        if city:
+        if city and state:
             location = f"{city}, {state}, USA"
-        else:
+        elif state:
             location = f"{state}, USA"
-    elif city:
+        else:
+            location = country
+    elif city and country:
         location = f"{city}, {country}"
     elif country:
         location = country
     else:
         location = "Unknown Location"
 
-    return [{"location": location}]
+    return [{"location": location, "timezone_offset": timezone_offset}]
 
 

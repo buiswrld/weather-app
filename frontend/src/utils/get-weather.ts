@@ -1,8 +1,6 @@
-import { useContext } from 'react';
-import { LocationContext } from '../context/LocationContext';
-import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../api/models/weather-model';
-import { fetchCurrentWeather, fetchDailyWeather, fetchHourlyWeather } from '../api/weather-service';
-import { fetchLocationName } from '../api/location-service';
+import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from "../api/models/weather-model";
+import { fetchCurrentWeather, fetchDailyWeather, fetchHourlyWeather } from "../api/weather-service";
+import { getDateTime } from  "./time";
 
 export const getCurrentWeather = async (lat: string, lon: string): Promise<CurrentWeatherData> => {
     try {
@@ -26,9 +24,9 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
   export const getDailyWeather = async (lat: string, lon: string): Promise<DailyWeatherData> => {
     try {
       const datetime = getDateTime();
-      const currentDate = datetime.date.toString();
+      const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
 
-      const data = await fetchDailyWeather(lat, lon, currentDate, currentDate);
+      const data = await fetchDailyWeather(lat, lon, currentDateTime, currentDateTime);
       const weather = data[0];
       return {
         date: weather.date,
@@ -54,9 +52,9 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
   export const getHourlyWeather = async (lat: string, lon: string): Promise<HourlyWeatherData> => {
     try {
       const datetime = getDateTime();
-      const currentDate = datetime.date.toString();
+      const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
 
-      const data = await fetchHourlyWeather(lat, lon, currentDate, currentDate);
+      const data = await fetchHourlyWeather(lat, lon, currentDateTime, currentDateTime);
       const weather = data[0];
 
       return {
@@ -79,46 +77,3 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       }
     }
   };
-
-  export const getDateTime = () => {
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: undefined,
-      hour12: true,
-    };
-  
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-  
-    const now = new Date();
-    const date = now.toLocaleDateString('en-US', dateOptions);
-    const time = now.toLocaleTimeString('en-US', timeOptions);
-  
-    return { date, time };
-  };
-
-export const getLocationName = async (lat: string, lon: string): Promise<string>=> {
-  try {
-    const locationData = await fetchLocationName(lat, lon);
-    console.log(locationData[0].location);
-    return locationData[0].location;
-  } catch (error) {
-    console.error('Error fetching location name:', error);
-    return "LOCATION ERROR";
-  }
-};
-
-export const useLocationFromContext = (): { lat: string; lon: string } => {
-  const context = useContext(LocationContext);
-  return {
-    lat: context.locationData?.lat.toString() || "",
-    lon: context.locationData?.lon.toString() || ""
-  };
-};
-
-

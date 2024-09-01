@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Temperature from './temperature';
 import Location from './location';
 import TemperatureBound from './temperature-bound';
-import { getCurrentWeather, useLocationFromContext, getLocationName, getDailyWeather, getHourlyWeather } from '../../utils/current-forecast-util';
+import { getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../utils/get-weather';
+import { useLocationFromContext, getLocationName } from '../../utils/location-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from '../../api/models/weather-model';
 
