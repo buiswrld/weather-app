@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Temperature from './temperature';
 import Location from './location';
 import TemperatureBound from './temperature-bound';
+import HourlyForecast from './hourly-forecast';
 import { getCurrentWeather, getDailyWeather, getHourlyWeather } from '../../utils/get-weather';
 import { useLocationFromContext, getLocationName } from '../../utils/location-util';
 import { Box, Heading, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
@@ -12,7 +13,7 @@ const CurrentForecast = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
   const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(null);
-  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeatherData | null>(null);
+  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeatherData[] | null>(null);
   const [location, setLocation] = useState<string>('');
 
   const { lat, lon } = useLocationFromContext();
@@ -69,6 +70,8 @@ const CurrentForecast = () => {
               temp_min={dailyWeather.temperature_2m_min} 
             />
           </Box>
+        <Heading size="md">Hourly Forecast</Heading>
+        <HourlyForecast data={hourlyWeather} />
       </Box>
       ) : (
         <Text>No weather data available for the current time.</Text>

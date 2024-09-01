@@ -17,20 +17,20 @@ const daySymbol = (is_day: number) => {
 const Temperature: React.FC<TemperatureProps> = ({ temperature, is_day, apparent_temperature, temp_max, temp_min }) => {
     const backgroundColor = getBackgroundColor(temperature);
     return (
-    <Card height="100%" background={backgroundColor}>
-        <CardHeader>
-          <Heading size='xl' textAlign="center" mb={2} mr = {4}>
-            <Box display="flex" alignItems="center">
-              <Text as="span" textShadow="4px 4px 8px rgba(0, 0, 0, 0.5)">
-                {daySymbol(is_day)}
-              </Text>
-              <Text as="span" ml={2}>
-                {temperature + "°F "}
-              </Text>
-            </Box>
-          </Heading>
-        </CardHeader>
-      </Card>
+      <Card height="100%" width="56%" background={backgroundColor}>
+      <CardHeader>
+        <Heading size="xl" textAlign="center" mb={2} mr={0}>
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Text as="span" textShadow="4px 4px 8px rgba(0, 0, 0, 0.5)">
+              {daySymbol(is_day)}
+            </Text>
+            <Text as="span" ml={0}>
+              {temperature + '°F '}
+            </Text>
+          </Box>
+        </Heading>
+      </CardHeader>
+    </Card>
     );
 };
 
