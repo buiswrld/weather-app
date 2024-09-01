@@ -25,7 +25,7 @@ const CurrentForecast = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherData | null>(null);
-  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(
+  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData[] | null>(
     null
   );
   const [hourlyWeather, setHourlyWeather] = useState<
@@ -83,24 +83,24 @@ const CurrentForecast = () => {
               temperature={currentWeather.temperature_2m}
               is_day={currentWeather.is_day}
               apparent_temperature={currentWeather.apparent_temperature}
-              temp_max={dailyWeather.temperature_2m_max}
-              temp_min={dailyWeather.temperature_2m_min}
+              temp_max={dailyWeather[0].temperature_2m_max}
+              temp_min={dailyWeather[0].temperature_2m_min}
             />
             <TemperatureBound
               is_day={currentWeather.is_day}
-              temp_max={dailyWeather.temperature_2m_max}
-              temp_min={dailyWeather.temperature_2m_min}
+              temp_max={dailyWeather[0].temperature_2m_max}
+              temp_min={dailyWeather[0].temperature_2m_min}
             />
           </Box>
           <ExtraForecast
-            uvIndex={dailyWeather.uv_index_max}
+            uvIndex={dailyWeather[0].uv_index_max}
             apparentTemperature={currentWeather.apparent_temperature}
           />
           <Box></Box>
           <HourlyForecast
             data={hourlyWeather}
-            sunrise={dailyWeather.sunrise}
-            sunset={dailyWeather.sunset}
+            sunrise={dailyWeather[0].sunrise}
+            sunset={dailyWeather[0].sunset}
           />
         </Box>
       ) : null}

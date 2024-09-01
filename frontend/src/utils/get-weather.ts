@@ -21,31 +21,38 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
     }
   };
 
-  export const getDailyWeather = async (lat: string, lon: string): Promise<DailyWeatherData> => {
+  export const getDailyWeather = async (lat: string, lon: string): Promise<DailyWeatherData[]> => {
     try {
-      const datetime = getDateTime(new Date());
-      const currentDateTime = datetime.date.toString() + " " + datetime.time.toString();
+      const currentDate = new Date();
+      const currentDateTime = getDateTime(currentDate);
+      const endDate = new Date(currentDate);
+      endDate.setDate(endDate.getDate() + 5);
+      const endDateTime = getDateTime(endDate);
 
-      const data = await fetchDailyWeather(lat, lon, currentDateTime, currentDateTime);
-      const weather = data[0];
-      return {
+      const data = await fetchDailyWeather(
+        lat, 
+        lon, 
+        `${currentDateTime.date} ${currentDateTime.time}`, 
+        `${endDateTime.date} ${endDateTime.time}`
+      );
+      return data.map(weather => ({
         date: weather.date,
         temperature_2m_max: weather.temperature_2m_max,
         temperature_2m_min: weather.temperature_2m_min,
         sunrise: weather.sunrise,
         sunset: weather.sunset,
         uv_index_max: weather.uv_index_max
-      };
+      }));
     } catch (error) {
       console.error('Error fetching current weather:', error);
-      return {
+      return [{
         date: "0000-00-00",
         temperature_2m_max: 0,
         temperature_2m_min: 0,
         sunrise: "00:00:00",
         sunset: "00:00:00",
         uv_index_max: 0
-      }
+      }]
     }
   };
 
