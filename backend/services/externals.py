@@ -37,6 +37,16 @@ PARAMS = {
 }
 
 def build_weather_request(lat: str, lon: str) -> dict:
+    """
+    Builds and sends a weather request to the weather API.
+
+    Args:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - dict: The response from the weather API.
+    """
     PARAMS['latitude'] = lat
     PARAMS['longitude'] = lon
     
@@ -47,11 +57,31 @@ def build_weather_request(lat: str, lon: str) -> dict:
 ### Weather Data ###
 
 def get_current_weather(lat: str, lon: str) -> list:
+    """
+    Fetches the current weather data for the given latitude and longitude.
+
+    Args:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - list: A list containing a single dictionary list[0] of current weather data. ['temperature_2m', 'apparent_temperature', 'is_day']
+    """
     response = build_weather_request(lat, lon)
     current = response['current']
     return [{key: current[key] for key in PARAMS['current']}]
 
 def get_hourly_weather(lat: str, lon: str) -> list:
+    """
+    Fetches the hourly weather data for the given latitude and longitude.
+
+    Args:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - list: A list of dictionaries containing hourly weather data. ['temperature_2m', 'precipitation_probability', 'precipitation', 'weathercode']
+    """
     response = build_weather_request(lat, lon)
     hourly = response['hourly']
     hourly_data = []
@@ -65,6 +95,16 @@ def get_hourly_weather(lat: str, lon: str) -> list:
     return hourly_data
 
 def get_daily_weather(lat: str, lon: str) -> list:
+    """
+    Fetches the daily weather data for the given latitude and longitude.
+
+    Args:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - list: A list of dictionaries containing daily weather data. ['temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', 'uv_index_max', 'weathercode', 'precipitation_probability_max']
+    """
     response = build_weather_request(lat, lon)
     daily = response['daily']
     daily_data = []
@@ -83,6 +123,15 @@ def get_daily_weather(lat: str, lon: str) -> list:
 ### Location Data ###
 
 def get_coords_from_location(location: str) -> list:
+    """
+    Fetches the latitude and longitude coordinates for a given location name.
+
+    Args:
+    - location (str): The name of the location.
+
+    Returns:
+    - list: A list of a singular dictionary list[0] containing the latitude ('lat') and longitude ('lon') coordinates.
+    """
     results = geocoder.geocode(location)
     if not results:
         return []
@@ -90,6 +139,16 @@ def get_coords_from_location(location: str) -> list:
     return [{'lat': coordinates['lat'], 'lon': coordinates['lng']}]
 
 def get_location_from_coords(lat: int, lon: int) -> list:
+    """
+    Fetches the location name based on the provided latitude and longitude coordinates.
+
+    Args:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - list: A list of a singular dictionary list[0] containing the location name ('location') and timezone offset from GMT+0 UTC ('timezone_offset').
+    """
     results = geocoder.reverse_geocode(lat, lon)
     if not results:
         return [{"location": "Unknown Location"}]
@@ -118,6 +177,15 @@ def get_location_from_coords(lat: int, lon: int) -> list:
 
 ### Gemini ###
 def get_gemini_response(query: str) -> str:
+    """
+    Fetches a response from the Gemini service based on the provided query.
+
+    Args:
+    - query (str): The query string to be sent to the Gemini service.
+
+    Returns:
+    - str: The response text from the Gemini service.
+    """
     response = model.generate_content(query)
     return response.text
     

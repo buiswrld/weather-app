@@ -43,6 +43,18 @@ def get_coords() -> dict:
 
 @app.route('/api/location', methods=['GET'])
 def get_location() -> dict:
+    """
+    Get location name from latitude and longitude.
+
+    This endpoint retrieves the location name based on the provided latitude and longitude coordinates.
+
+    Query Parameters:
+    - lat (str): Latitude of the location.
+    - lon (str): Longitude of the location.
+
+    Returns:
+    - dict: A dictionary containing the location name.
+    """
     lat, lon = request.args.get('lat'), request.args.get('lon')
     data = get_location_from_coords(lat, lon)
     return jsonify(data)
