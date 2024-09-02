@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import { useGeminiResponse } from '../../utils/get-gemini';
 import { Text, Box } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
+import GeminiResponse from './gemini-response';
 
 const GeminiContainer: React.FC = () => {
-    const { geminiResponse, error} = useGeminiResponse();
 
     return (
-        <Box>
-            {error ? (
-                <Text color="red.500">Error: {error}</Text>
-            ) : (
-                <ReactMarkdown>{geminiResponse}</ReactMarkdown>
-            )}
+        <Box p = {2}>
+            <GeminiResponse />
         </Box>
-    );
+    )
 };
 
 export default GeminiContainer;

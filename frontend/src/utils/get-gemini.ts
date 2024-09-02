@@ -4,8 +4,7 @@ import { fetchGeminiResponse } from '../api/gemini-service';
 import { useLocationFromContext } from '../utils/location-util';
 import { getDateTime } from './time';
 
-export const useGeminiResponse = () => {
-    const { lat, lon } = useLocationFromContext();
+export const useGeminiResponse = (lat: string, lon: string) => {
     const [geminiResponse, setGeminiResponse] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +26,12 @@ export const useGeminiResponse = () => {
                 };
 
                 const weatherDataStr = JSON.stringify(weatherData);
-                const prompt = `This is weather data.  Please provide a useful summary of the weather for an average user. This summary might include important times to know or clothing reccomendations, although not required. Be somewhat concise in your response, but be more particular about the weather at the earliest date provided. This place is located at the coordinates: (${lat}, ${lon}). Here is the data: ${weatherDataStr}`;
+                const prompt = `This is weather data.  
+                Please provide a useful and concise summary of the weather for an average user. 
+                Don't be too specific about numbers. 
+                Focus on overall trends.
+                Avoid using bullet points. 
+                Here is the data: ${weatherDataStr}`;
 
                 const response = await fetchGeminiResponse(prompt);
                 setGeminiResponse(response);
