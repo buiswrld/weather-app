@@ -111,8 +111,8 @@ export function getEmojiForTime(
   sunrise: string,
   sunset: string,
 ): string {
-  sunrise = floorTimeToHour(sunrise)
-  sunset = floorTimeToHour(sunset)
+  sunrise = convert24To12Hour(floorTimeToHour(sunrise))
+  sunset = convert24To12Hour(floorTimeToHour(sunset))
   if (time === sunrise) {
     return '🌅'
   }
