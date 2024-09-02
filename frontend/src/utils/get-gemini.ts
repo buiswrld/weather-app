@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchDailyWeather, fetchHourlyWeather, fetchCurrentWeather } from '../api/weather-service';
 import { fetchGeminiResponse } from '../api/gemini-service';
-import { useLocationFromContext } from '../utils/location-util';
 import { getDateTime } from './time';
 
 export const useGeminiResponse = (lat: string, lon: string) => {

@@ -15,18 +15,20 @@ const GeminiResponse: React.FC = () => {
         }
     }, [geminiResponse, error]);
 
+    const background = "linear-gradient(135deg, #e1b5ff 0%, #b5bfff 50%, #facff0 100%)"
+
     return (
         <Box>
             <Box p={2} display="flex" justifyContent="center" alignItems="center">
-                <img src={myImage} alt="Gemini" style={{ width: '200px', height: '100px', borderRadius: '100x' }} />
+                <img src={myImage} alt="Gemini" style={{ width: '200px', height: '100px', borderRadius: '20px' }} />
             </Box>
-            <Card p={4}>
+            <Card p={4} background ={background}>
                 {loading ? (
                     <Text textAlign="center">Loading...</Text>
                 ) : error ? (
                     <Text color="red.500">Error: {error}</Text>
                 ) : (
-                    <Text textAlign="left">{geminiResponse}</Text>
+                    <strong><Text textAlign="left">{geminiResponse}</Text></strong>
                 )}
             </Card>
         </Box>

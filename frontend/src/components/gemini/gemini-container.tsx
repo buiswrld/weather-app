@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Text, Box } from '@chakra-ui/react';
-import ReactMarkdown from 'react-markdown';
+import { Box } from '@chakra-ui/react';
 import GeminiResponse from './gemini-response';
+import InfoButtons from './info';   
 
 const GeminiContainer: React.FC = () => {
 
     return (
-        <Box p = {2}>
-            <GeminiResponse />
+        <Box>
+            <Box p = {2}>
+                <GeminiResponse />
+            </Box>
+            <Box p = {4}>
+                <InfoButtons />
+            </Box>
         </Box>
     )
 };
