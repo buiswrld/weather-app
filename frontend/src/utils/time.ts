@@ -58,7 +58,7 @@ export function isDaytime(
 }
 
 export function floorTimeToHour(time: string): string {
-  const [hour, minute]= time.split(':').map(Number)
+  const [hour]= time.split(':').map(Number)
   return `${hour.toString().padStart(2, '0')}:00`
 }
 

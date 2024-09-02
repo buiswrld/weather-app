@@ -3,7 +3,7 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import { Box, Text, Card } from "@chakra-ui/react";
 import { HourlyWeatherData } from "../../api/models/weather-model";
-import { convert24To12Hour, getEmojiForTime } from "../../utils/time";
+import { getEmojiForTime } from "../../utils/time";
 import { getBackgroundColor } from "../../utils/temperature-util";
 import "../../styles/scrollbar.css";
 
