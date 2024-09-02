@@ -1,11 +1,21 @@
 import React from 'react'
 import { Box, Text, Flex } from '@chakra-ui/react'
 
+/**
+ * Interface for the ExtraForecast component props.
+ */
 interface ExtraForecastProps {
   uvIndex: number
   apparentTemperature: number
 }
 
+/**
+ * ExtraForecast component that displays additional weather information such as UV index and apparent temperature.
+ * 
+ * @param uvIndex - The UV index value.
+ * @param apparentTemperature - The apparent temperature (feels like) value.
+ * @returns A React component that renders the UV index and apparent temperature.
+ */
 const ExtraForecast: React.FC<ExtraForecastProps> = ({
   uvIndex,
   apparentTemperature,

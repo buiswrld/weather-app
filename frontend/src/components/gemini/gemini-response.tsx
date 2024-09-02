@@ -4,6 +4,9 @@ import myImage from '../../assets/Google-Gemini.jpg'
 import { useEffect, useState } from 'react';
 import { useLocationFromContext } from '../../utils/location-util';
 
+/**
+ * @returns A React component that renders the GeminiResponse and InfoButtons components within styled boxes.
+ */
 const GeminiResponse: React.FC = () => {
     const { lat, lon } = useLocationFromContext();
     const { geminiResponse, error} = useGeminiResponse(lat , lon);

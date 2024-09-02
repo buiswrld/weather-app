@@ -4,24 +4,16 @@ import Location from "./location";
 import TemperatureBound from "./temperature-bound";
 import HourlyForecast from "./hourly-forecast";
 import ExtraForecast from "./extra-forecast";
-import {
-  getCurrentWeather,
-  getDailyWeather,
-  getHourlyWeather,
-} from "../../utils/get-weather";
-import {
-  useLocationFromContext,
-  getLocationName,
-} from "../../utils/location-util";
+import { getCurrentWeather, getDailyWeather, getHourlyWeather } from "../../utils/get-weather";
+import { useLocationFromContext, getLocationName } from "../../utils/location-util";
 import { Box, Spinner, Alert, AlertIcon, Heading } from "@chakra-ui/react";
-import {
-  CurrentWeatherData,
-  DailyWeatherData,
-  HourlyWeatherData,
-} from "../../api/models/weather-model";
-
+import { CurrentWeatherData, DailyWeatherData, HourlyWeatherData } from "../../api/models/weather-model";
 import { weatherCodeDescriptions } from "../../utils/weathercodes";
 
+
+/**
+* @returns A React component that renders the current weather, daily weather, and hourly weather forecasts.
+*/
 const CurrentForecast = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,6 +24,10 @@ const CurrentForecast = () => {
   const { lat, lon } = useLocationFromContext();
 
   useEffect(() => {
+
+    /**
+     * Fetches the weather (currenty, hourly, and daily) data based on the provided latitude and longitude in the context. 
+     */
     const fetchWeather = async () => {
       if (lat && lon) {
         setLoading(true);

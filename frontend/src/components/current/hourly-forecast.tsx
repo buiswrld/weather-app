@@ -7,12 +7,26 @@ import { getBackgroundColor } from "../../utils/temperature-util";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import "../../styles/scrollbar.css";
 
+
+/**
+ * Interface for the HourlyForecast component props.
+ */
 interface HourlyForecastProps {
   data: HourlyWeatherData[];
   sunrise: string;
   sunset: string;
 }
 
+/**
+ * HourlyForecast component that displays the hourly weather forecast of the current user time + 24 hours ahead.
+ * 
+ * It fetches the weather data and displays it with appropriate emojis based on the time of day.
+ * 
+ * @param data - The hourly weather data.
+ * @param sunrise - The sunrise time.
+ * @param sunset - The sunset time.
+ * @returns A React component that renders the hourly weather forecast.
+ */
 const HourlyForecast: React.FC<HourlyForecastProps> = ({
   data,
   sunrise,

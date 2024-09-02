@@ -7,11 +7,17 @@ import { LocationContext } from '../../context/location-context';
 import { DailyWeatherData } from '../../api/models/weather-model';
 import { getNextFiveDates } from '../../utils/time';
 
+/**
+* @returns A React component that renders two buttons with tooltips for disclaimer and info.
+*/
 const FutureForecast: React.FC = () => {
   const { locationData } = useContext(LocationContext);
   const [weatherData, setWeatherData] = useState<DailyWeatherData[]>([]);
 
   useEffect(() => {
+    /**
+     * Fetch weather data based on locationData
+     */
     const fetchWeatherData = async () => {
       if (!locationData) {
         console.error('Location data is not available');
@@ -31,6 +37,9 @@ const FutureForecast: React.FC = () => {
 
   const nextFiveDates = getNextFiveDates();
 
+  /**
+   * Renders the forecast for the next 5 days
+   */
   return (
     <Stack spacing="4" marginX="10px" marginY="10px">
       {nextFiveDates.map((date: Date, index: number) => {
