@@ -1,3 +1,11 @@
+/**
+ * Returns a background color gradient based on the temperature and whether the colors should be dampened.
+ * 
+ * @param temp - The temperature value.
+ * @param dampen - A boolean indicating whether the colors should be dampened.
+ * @returns A string representing the CSS linear-gradient for the background color.
+ */
+
 export const getBackgroundColor = (temp: number, dampen: boolean): string => {
     if (dampen) {
         if (temp <= 32) {

@@ -1,10 +1,10 @@
 import React from "react";
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
-import "react-horizontal-scrolling-menu/dist/styles.css";
 import { Box, Text, Card } from "@chakra-ui/react";
 import { HourlyWeatherData } from "../../api/models/weather-model";
 import { getEmojiForTime } from "../../utils/time";
 import { getBackgroundColor } from "../../utils/temperature-util";
+import "react-horizontal-scrolling-menu/dist/styles.css";
 import "../../styles/scrollbar.css";
 
 interface HourlyForecastProps {

@@ -25,16 +25,10 @@ import { weatherCodeDescriptions } from "../../utils/weathercodes";
 const CurrentForecast = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [currentWeather, setCurrentWeather] =
-    useState<CurrentWeatherData | null>(null);
-  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData[] | null>(
-    null
-  );
-  const [hourlyWeather, setHourlyWeather] = useState<
-    HourlyWeatherData[] | null
-  >(null);
+  const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null);
+  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData[] | null>(null);
+  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeatherData[] | null>(null);
   const [location, setLocation] = useState<string>("");
-
   const { lat, lon } = useLocationFromContext();
 
   useEffect(() => {

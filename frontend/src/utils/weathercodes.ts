@@ -1,3 +1,11 @@
+/**
+ * A mapping of weather codes to their corresponding descriptions and emojis.
+ * 
+ * The keys are weather codes represented as numbers, and the values are strings
+ * that describe the weather condition along with an appropriate emoji. The conditions are pulled from Open-Meteo documentation
+ * Access by weatherCodeDescriptions[weathercode]
+ * 
+ */
 export const weatherCodeDescriptions: { [key: number]: string } = {
     0: "☀️ Clear sky",
     1: "🌤️ Mainly clear",
