@@ -44,12 +44,27 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       endDate.setDate(endDate.getDate() + 5);
       const endDateTime = getDateTime(endDate, false);
 
-      const data = await fetchDailyWeather(
+      let data = await fetchDailyWeather(
         lat, 
         lon, 
         `${currentDateTime.date} ${currentDateTime.time}`, 
         `${endDateTime.date} ${endDateTime.time}`
       );
+
+      if (data.length !== 6) {
+        const newStartDate = shiftDateByOneDay(currentDate);
+        const newEndDate = shiftDateByOneDay(endDate);
+        const newStartDateTime = getDateTime(newStartDate, false);
+        const newEndDateTime = getDateTime(newEndDate, false);
+  
+        data = await fetchDailyWeather(
+          lat, 
+          lon, 
+          `${newStartDateTime.date} ${newStartDateTime.time}`, 
+          `${newEndDateTime.date} ${newEndDateTime.time}`
+        );
+      }
+
       return data.map(weather => ({
         date: weather.date,
         temperature_2m_max: weather.temperature_2m_max,
@@ -95,15 +110,32 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       endDate.setDate(endDate.getDate() + 1);
       const endDateTime = getDateTime(endDate, false);
   
-      const data = await fetchHourlyWeather(
+      let data = await fetchHourlyWeather(
         lat, 
         lon, 
         `${currentDateTime.date} ${currentDateTime.time}`, 
         `${endDateTime.date} ${endDateTime.time}`
       );
   
-      const startIndex = data.findIndex(weather => weather.time === flooredCurrentTime);
-      const next24HoursData = data.slice(startIndex, startIndex + 24);
+      let startIndex = data.findIndex(weather => weather.time === flooredCurrentTime);
+      let next24HoursData = data.slice(startIndex, startIndex + 24);
+
+      if (next24HoursData.length !== 23) {
+        const newStartDate = shiftDateByOneDay(currentDate);
+        const newEndDate = shiftDateByOneDay(endDate);
+        const newStartDateTime = getDateTime(newStartDate, false);
+        const newEndDateTime = getDateTime(newEndDate, false);
+  
+        data = await fetchHourlyWeather(
+          lat, 
+          lon, 
+          `${newStartDateTime.date} ${newStartDateTime.time}`, 
+          `${newEndDateTime.date} ${newEndDateTime.time}`
+        );
+  
+        startIndex = data.findIndex(weather => weather.time === flooredCurrentTime);
+        next24HoursData = data.slice(startIndex, startIndex + 24);
+      }
   
       return next24HoursData.map(weather => ({
         date: weather.date,
@@ -119,3 +151,14 @@ export const getCurrentWeather = async (lat: string, lon: string): Promise<Curre
       return [];
     }
   };
+
+/**
+ * Shifts the given date by one day, for timezone edge cases
+ * @param date - The date to shift
+ * @returns A new date object shifted by one day
+ */
+  function shiftDateByOneDay(date: Date): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return newDate;
+  }
