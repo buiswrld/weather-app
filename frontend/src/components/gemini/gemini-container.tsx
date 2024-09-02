@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import GeminiResponse from './gemini-response';
 import InfoButtons from './info';   

@@ -1,12 +1,20 @@
 from typing import Any, Dict, List, Tuple
 from datetime import datetime, timedelta
+import logging
+
+def convert_to_yyyy_mm_dd(date_str: str) -> datetime:
+    try:
+        date_obj = datetime.strptime(date_str, '%A, %B %d, %Y %H:%M')
+        return date_obj
+    except ValueError:
+        raise ValueError("Invalid date format. Use 'Weekday, Month DD, YYYY HH:MM'.")
 
 def parse_date_range(start_date_str: str, end_date_str: str) -> Tuple[datetime, datetime]:
     try:
         start_date = convert_to_yyyy_mm_dd(start_date_str)
         end_date = convert_to_yyyy_mm_dd(end_date_str)
     except ValueError:
-        raise ValueError("Invalid date format. Use 'Weekday, Month DD, YYYY HH:MM:SS'.")
+        raise ValueError("Invalid date format. Use 'Weekday, Month DD, YYYY HH:MM'.")
     return start_date, end_date
 
 def adjust_date_for_timezone(date: datetime, offset_sec: int) -> datetime:
@@ -39,11 +47,3 @@ def process_date_range_and_filter_data(data: List[Dict[str, Any]], start_date_st
         filtered_data = filter_data_by_date_range(data, start_date, end_date)
 
     return filtered_data
-
-def convert_to_yyyy_mm_dd(date_str: str) -> datetime:
-    try:
-        date_obj = datetime.strptime(date_str, '%A, %B %d, %Y %I:%M %p')
-        date_obj = date_obj.replace(second=0)
-        return date_obj
-    except ValueError:
-        raise ValueError("Invalid date format. Use 'Weekday, Month DD, YYYY HH:MM:SS'.")

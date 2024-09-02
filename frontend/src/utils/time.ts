@@ -1,9 +1,9 @@
-export const getDateTime = (day: Date) => {
+export const getDateTime = (day: Date, format12: boolean) => {
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: '2-digit',
     minute: '2-digit',
     second: undefined,
-    hour12: true,
+    hour12: format12
   }
 
   const dateOptions: Intl.DateTimeFormatOptions = {
@@ -19,9 +19,18 @@ export const getDateTime = (day: Date) => {
 }
 
 export const convert24To12Hour = (time24: string): string => {
+
+  console.log(`converting time: ${time24} to 12 hour format`)
   const [hour, minute] = time24.split(':').map(Number)
+
+  if (isNaN(hour) || isNaN(minute)) {
+    console.error(`Invalid time format: ${time24}`);
+    return 'Invalid Time';
+  }
+
   const period = hour >= 12 ? 'PM' : 'AM'
   const hour12 = hour % 12 || 12
+  console.log("converted: " + `${hour12}:${minute.toString().padStart(2, '0')} ${period}`);
   return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`
 }
 

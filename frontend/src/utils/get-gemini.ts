@@ -10,8 +10,8 @@ export const useGeminiResponse = (lat: string, lon: string) => {
     useEffect(() => {
         const getGeminiResponse = async () => {
             try {
-                const dateStart = getDateTime(new Date());
-                const dateEnd = getDateTime(new Date(Date.now() + 5 * 24 * 60 * 60 * 1000));
+                const dateStart = getDateTime(new Date(), false);
+                const dateEnd = getDateTime(new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), false);
                 const rangeStart = dateStart.date + " " + dateStart.time;
                 const rangeEnd = dateEnd.date + " " + dateEnd.time;
                 const currentWeather = await fetchCurrentWeather(lat, lon);
@@ -33,6 +33,7 @@ export const useGeminiResponse = (lat: string, lon: string) => {
                 Here is the data: ${weatherDataStr}`;
 
                 const response = await fetchGeminiResponse(prompt);
+
                 setGeminiResponse(response);
             } catch (error) {
                 console.error('Error in getGeminiResponse:', error);

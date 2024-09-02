@@ -23,13 +23,12 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({
       <ScrollMenu>
         {data.map((weather, index) => {
           const emoji = getEmojiForTime(weather.time, sunrise, sunset);
-          const time = convert24To12Hour(weather.time);
 
           return (
             <Box
               key={index}
               itemID={index.toString()}
-              title={time}
+              title={weather.time}
               p={4}
               m={2}
               borderWidth="1px"
@@ -44,7 +43,7 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({
                 boxShadow="lg"
               >
                 <Text fontSize="lg" fontWeight="bold">
-                  {time}
+                  {weather.time}
                 </Text>
                 <Text>
                   <Text as="span" textShadow="1px 1px 1px black">

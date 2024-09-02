@@ -34,7 +34,7 @@ const FutureForecast: React.FC = () => {
   return (
     <Stack spacing="4" marginX="10px" marginY="10px">
       {nextFiveDates.map((date: Date, index: number) => {
-        const formattedDate = getDateTime(date).date;
+        const formattedDate = getDateTime(date, true).date;
         const weather = weatherData[index+1];
 
         const description = weather ? weatherCodeDescriptions[weather.weathercode].split(':')[0]: 'Loading...';
