@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import logging
 from services.externals import get_current_weather, get_hourly_weather, get_daily_weather, get_coords_from_location, get_location_from_coords, get_gemini_response
 from utils.date_conversion import process_date_range_and_filter_data
 import sqlite3
@@ -23,7 +22,6 @@ def get_gemini_response_route() -> str:
     if not query:
         return jsonify({"error": "query parameter is required"}), 400
     response = get_gemini_response(query)
-    print("Gemini response: ", response)
     return response
 
 @app.route('/api/coords', methods=['GET'])
@@ -120,8 +118,6 @@ def get_daily_weather_route() -> list:
     
     if not start_date_str or not end_date_str:
         return jsonify({"error": "start_date and end_date parameters are required"}), 400
-    
-    print(f"Received start_date_str: {start_date_str}, end_date_str: {end_date_str}")
     
     location_data = get_location_from_coords(lat, lon)
     offset_sec = location_data[0].get('offset_sec', 0)

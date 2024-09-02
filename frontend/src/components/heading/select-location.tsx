@@ -25,12 +25,9 @@ const SelectLocation = () => {
       const data = await fetchLocationCoords(location);
       if (data.length > 0) {
         setLocationData(data[0]);
-        console.log('Location data:', data);
       } else {
-        console.log('Invalid location entered');
       }
     } catch (err) {
-      console.log('Failed to fetch location data:', err);
     }
   };
 

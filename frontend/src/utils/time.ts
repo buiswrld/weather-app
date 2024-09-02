@@ -19,8 +19,6 @@ export const getDateTime = (day: Date, format12: boolean) => {
 }
 
 export const convert24To12Hour = (time24: string): string => {
-
-  console.log(`converting time: ${time24} to 12 hour format`)
   const [hour, minute] = time24.split(':').map(Number)
 
   if (isNaN(hour) || isNaN(minute)) {
@@ -30,7 +28,6 @@ export const convert24To12Hour = (time24: string): string => {
 
   const period = hour >= 12 ? 'PM' : 'AM'
   const hour12 = hour % 12 || 12
-  console.log("converted: " + `${hour12}:${minute.toString().padStart(2, '0')} ${period}`);
   return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`
 }
 

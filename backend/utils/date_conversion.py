@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Tuple
 from datetime import datetime, timedelta
-import logging
 
 def convert_to_yyyy_mm_dd(date_str: str) -> datetime:
     try:
@@ -41,7 +40,6 @@ def process_date_range_and_filter_data(data: List[Dict[str, Any]], start_date_st
     filtered_data = filter_data_by_date_range(data, start_date, end_date)
 
     if not filtered_data:
-        # If no data is returned, offset the time filter by one day and try again
         start_date += timedelta(days=1)
         end_date += timedelta(days=1)
         filtered_data = filter_data_by_date_range(data, start_date, end_date)

@@ -25,7 +25,6 @@ export const fetchDailyWeather = async (lat: string, lon: string, startDate: str
             throw new Error('Failed to fetch daily weather data');
         }
         const data = await response.json();
-        console.log('Daily Weather Data:', data); 
         return data;
     } catch (error) {
         console.error('Error in fetchDailyWeather:', error); 
