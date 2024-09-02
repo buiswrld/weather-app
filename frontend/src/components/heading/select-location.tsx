@@ -3,6 +3,10 @@ import React, { useState, useContext } from 'react';
 import { fetchLocationCoords } from '../../api/location-service';
 import { LocationContext } from '../../context/location-context';
 
+
+/**
+ * @returns A React component that renders an input field for location and a submit button.
+ */
 const SelectLocation = () => {
   const [location, setLocation] = useState<string>('');
   const context = useContext(LocationContext);
@@ -11,10 +15,19 @@ const SelectLocation = () => {
   }
   const { setLocationData } = context;
 
+  /**
+   * Handles changes to the input field and updates the location state.
+   * 
+   * @param event - The change event from the input field.
+   */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(event.target.value);
   };
-
+  
+  /**
+   * Handles the submit action, fetches the coordinates for the entered location,
+   * and updates the location data in the context.
+   */
   const handleSubmit = async () => {
     if (!location) {
       console.log('Location is empty'); 

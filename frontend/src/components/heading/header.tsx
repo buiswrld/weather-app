@@ -4,11 +4,16 @@ import { getDateTime } from '../../utils/time';
 import SelectLocation from './select-location';
 import SelectUser from './select-user';
 import Subheader from './subheader';
-
+/**
+* @returns A React component that renders the header with date, time, location selector, and user selector.
+*/
 const Header = () => {
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
 
+    /**
+   * Updates the current date and time.
+   */
   useEffect(() => {
     const updateDateTime = () => {
       const { date, time } = getDateTime(new Date(), true);

@@ -1,5 +1,7 @@
 import { Select } from '@chakra-ui/react'
-
+/**
+ * @returns A React component that renders a user selection dropdown.
+ */
 const SelectUser = () => (
   <Select
     placeholder="User"
